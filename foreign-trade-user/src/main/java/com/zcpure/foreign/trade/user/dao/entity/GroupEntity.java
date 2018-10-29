@@ -3,28 +3,27 @@ package com.zcpure.foreign.trade.user.dao.entity;
 import lombok.Data;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 管理用户
  */
-@Table(name = "ft_user")
+@Table(name = "ft_group")
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data
-public class UserEntity extends BaseEntity {
+public class GroupEntity extends BaseEntity {
 	private static final long serialVersionUID = 1111320370190733556L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String groupCode;
-	private String groupName;
+	@Column(length = 64, unique = true, updatable = false)
+	private String code;
 	private String name;
 	private String phone;
-	private String password;
-	private String salt;
 	private String email;
 	private String address;
-	private Integer userLevel;
+	private String remark;
 }

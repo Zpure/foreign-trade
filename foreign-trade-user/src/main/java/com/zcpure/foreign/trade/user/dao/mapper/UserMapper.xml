@@ -3,7 +3,7 @@
 <mapper namespace="com.zcpure.foreign.trade.user.dao.mapper.UserMapper">
     <sql id="BASE_COLUMN">
 		create_time, delete_flag,modify_time,
-		name, phone, email, addr
+		name, phone, email, address
 	</sql>
 
     <sql id="BASE_WHERE">

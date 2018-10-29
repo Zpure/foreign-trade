@@ -7,22 +7,24 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 品牌
- *
- * @author obama
- */
 @Data
 @ApiModel(value = "管理员信息")
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1111320370190733556L;
 
 	private Long id;
-	@ApiModelProperty(value = "品牌名称")
+	@ApiModelProperty(value = "集团编码")
+	private String groupCode;
+	@ApiModelProperty(value = "集团名称")
+	private String groupName;
+	@ApiModelProperty(value = "管理员名称")
 	private String name;
+	@ApiModelProperty(value = "管理员手机号")
 	private String phone;
+	@ApiModelProperty(value = "管理员邮箱")
 	private String email;
-	private String addr;
+	@ApiModelProperty(value = "管理员地址")
+	private String address;
+	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
-	private Date modifyTime;
 }
