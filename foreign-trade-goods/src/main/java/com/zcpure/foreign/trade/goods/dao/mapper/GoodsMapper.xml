@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcpure.foreign.trade.goods.dao.mapper.GoodsMapper">
+	<sql id="BASE_COLUMN">
+		create_time, delete_flag,modify_time,
+		group_code,code,name,brand_id,brand_name,model_id,model_name,
+		category_id,category_name,category_link_name,
+		cost_price,sale_price,main_img,other_img,desc,status,priority
+	</sql>
+
+	<select id="queryPage" parameterType="com.zcpure.foreign.trade.command.goods.GoodsQueryCommand"
+		resultType="com.zcpure.foreign.trade.dto.goods.GoodsDTO">
+		select
+		id, <include refid="BASE_COLUMN" />
+		from ft_goods
+		<where>
+			group_code = #{groupCode} and delete_flag = 0
+			<if test="code != null and code != ''">
+				and code like concat('%',#{code},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="brandName != null and brandName != ''">
+				and brand_name like concat('%',#{brandName},'%')
+			</if>
+			<if test="modelName != null and modelName != ''">
+				and model_name like concat('%',#{modelName},'%')
+			</if>
+			<if test="status != null">
+				and status like concat('%',#{status},'%')
+			</if>
+		</where>
+		order by id desc
+	</select>
+</mapper>

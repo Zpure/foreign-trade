@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcpure.foreign.trade.goods.dao.mapper.ModelMapper">
+	<sql id="BASE_COLUMN">
+		create_time, delete_flag,modify_time,
+		brand_id,brand_name,name,alias,main_img,other_img
+	</sql>
+
+	<select id="queryPage" parameterType="com.zcpure.foreign.trade.command.goods.ModelQueryCommand"
+		resultType="com.zcpure.foreign.trade.dto.goods.ModelDTO">
+		select
+		id, <include refid="BASE_COLUMN" />
+		from ft_model
+		<where>
+			<if test="brandId != null">
+				and brand_id = #{brandId}
+			</if>
+			<if test="brandName != null and brandName != ''">
+				and brand_name like concat('%',#{brandName},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and ((name like concat('%',#{name},'%')) or (alias like concat('%',#{name},'%')))
+			</if>
+			and delete_flag = 0
+		</where>
+		order by id desc
+	</select>
+</mapper>
