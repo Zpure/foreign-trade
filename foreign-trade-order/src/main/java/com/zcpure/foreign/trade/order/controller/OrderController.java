@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "订单")
 public class OrderController {
 
-	@ApiOperation(value = "添加品牌信息")
+	@ApiOperation(value = "获取透传信息")
 	@RequestMapping(value = "/through-info", method = RequestMethod.GET)
 	public WebJsonBean<RequestThroughInfo> throughInfo() {
 		return WebJsonBean.SUCCESS(RequestThroughInfoContext.getInfo());

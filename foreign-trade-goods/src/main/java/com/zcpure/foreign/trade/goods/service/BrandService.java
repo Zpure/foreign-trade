@@ -11,8 +11,4 @@ import com.zcpure.foreign.trade.utils.page.PageBean;
  */
 public interface BrandService {
 	void add(BrandAddCommand command);
-
-	PageBean<BrandDTO> queryPage(BrandQueryCommand command);
-
-	BrandDTO getById(Long id);
 }

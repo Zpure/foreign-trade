@@ -1,9 +1,9 @@
 package com.zcpure.foreign.trade.goods.service.impl;
 
 import com.zcpure.foreign.trade.command.goods.CategoryAddCommand;
+import com.zcpure.foreign.trade.dto.goods.CategoryLinkDTO;
 import com.zcpure.foreign.trade.goods.dao.entity.CategoryEntity;
 import com.zcpure.foreign.trade.goods.dao.repository.CategoryRepository;
-import com.zcpure.foreign.trade.dto.goods.CategoryLinkDTO;
 import com.zcpure.foreign.trade.goods.service.CategoryService;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
+
 	@Override
 	public void add(CategoryAddCommand command) {
-		if(command.getParentId() > 0) {
+		if (command.getParentId() > 0) {
 			CategoryEntity parentCategory = categoryRepository.findOne(command.getParentId());
 			Validate.notNull(parentCategory,
 				"父分类不存在：" + command.getParentId());
@@ -39,14 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryLinkDTO getOneLink(Long cid) {
 		CategoryEntity categoryEntity = categoryRepository.findOne(cid);
-		if(categoryEntity != null) {
-			return getOneLink(CategoryEntity.toLinkDTO(categoryEntity), null);
-		}
-		return null;
+		return getOneLink(CategoryEntity.toLinkDTO(categoryEntity), null);
 	}
 
 	private CategoryLinkDTO getOneLink(CategoryLinkDTO category, CategoryLinkDTO childCategory) {
-		if(category == null) {
+		if (category == null) {
 			return childCategory;
 		}
 		category.setChild(childCategory);

@@ -1,17 +1,10 @@
 package com.zcpure.foreign.trade.goods.service.impl;
 
-import com.github.pagehelper.Page;
 import com.zcpure.foreign.trade.command.goods.BrandAddCommand;
-import com.zcpure.foreign.trade.command.goods.BrandQueryCommand;
 import com.zcpure.foreign.trade.goods.dao.entity.BrandEntity;
 import com.zcpure.foreign.trade.goods.dao.mapper.BrandMapper;
 import com.zcpure.foreign.trade.goods.dao.repository.BrandRepository;
-import com.zcpure.foreign.trade.dto.goods.BrandDTO;
 import com.zcpure.foreign.trade.goods.service.BrandService;
-import com.zcpure.foreign.trade.utils.page.PageBean;
-import com.zcpure.foreign.trade.goods.utils.page.PageBeanAssembler;
-import com.zcpure.foreign.trade.goods.utils.page.RowBoundsBuilder;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +23,8 @@ public class BrandServiceImpl implements BrandService {
 
 	@Override
 	public void add(BrandAddCommand command) {
-		if(!brandRepository.existsByName(command.getName())) {
+		if (!brandRepository.existsByName(command.getName())) {
 			brandRepository.save(new BrandEntity(command.getName()));
 		}
-	}
-
-	@Override
-	public PageBean<BrandDTO> queryPage(BrandQueryCommand command) {
-		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
-		Page<BrandDTO> result = brandMapper.queryPage(command, bounds);
-		return new PageBeanAssembler().toBean(result);
-	}
-
-	@Override
-	public BrandDTO getById(Long id) {
-		BrandEntity entity = brandRepository.findOne(id);
-		return BrandEntity.toDTO(entity);
 	}
 }
