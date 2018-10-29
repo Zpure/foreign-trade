@@ -24,14 +24,14 @@ public class GoodsController {
 	private GoodsService goodsService;
 
 	@ApiOperation(value = "添加商品信息")
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> add(@RequestBody GoodsAddCommand command) {
 		goodsService.add(command);
 		return WebJsonBean.SUCCESS();
 	}
 
 	@ApiOperation(value = "获取品牌信息")
-	@RequestMapping(value = "/page")
+	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<GoodsDTO>> queryByPage(@RequestBody GoodsQueryCommand command) {
 		PageBean<GoodsDTO> result = goodsService.queryPage(command);
 		return WebJsonBean.SUCCESS(result);

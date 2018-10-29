@@ -44,7 +44,7 @@ public class BrandController {
 
 
 	@ApiOperation(value = "获取品牌信息")
-	@RequestMapping(value = "/page")
+	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<BrandDTO>> queryByPage(@RequestBody BrandQueryCommand command) {
 		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
 		Page<BrandDTO> result = brandMapper.queryPage(command, bounds);

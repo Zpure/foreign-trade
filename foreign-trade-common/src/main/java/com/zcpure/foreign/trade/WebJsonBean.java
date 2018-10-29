@@ -65,4 +65,8 @@ public class WebJsonBean<T> {
 	public static WebJsonBean<Void> FAIL() {
 		return new WebJsonBean(BaseCode.FAIL);
 	}
+
+	public static WebJsonBean<Void> FAIL(String msg) {
+		return new WebJsonBean(BaseCode.FAIL, msg);
+	}
 }

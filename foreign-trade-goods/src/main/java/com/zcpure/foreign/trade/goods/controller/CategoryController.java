@@ -20,7 +20,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@ApiOperation(value = "添加分类信息")
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> add(@RequestBody CategoryAddCommand command) {
 		categoryService.add(command);
 		return WebJsonBean.SUCCESS();

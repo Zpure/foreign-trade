@@ -14,10 +14,7 @@ import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author ethan
@@ -34,21 +31,21 @@ public class ModelController {
 	private ModelMapper modelMapper;
 
 	@ApiOperation(value = "添加型号")
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> add(@RequestBody ModelAddCommand command) {
 		modelService.add(command);
 		return WebJsonBean.SUCCESS();
 	}
 
 	@ApiOperation(value = "更新型号")
-	@RequestMapping(value = "/update")
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public WebJsonBean<Void> update(@RequestBody ModelUpdateCommand command) {
 		modelService.update(command);
 		return WebJsonBean.SUCCESS();
 	}
 
 	@ApiOperation(value = "获取型号信息")
-	@RequestMapping(value = "/page")
+	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<ModelDTO>> queryByPage(@RequestBody ModelQueryCommand command) {
 		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
 		Page<ModelDTO> result = modelMapper.queryPage(command, bounds);
