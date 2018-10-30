@@ -41,7 +41,6 @@ public class UserController {
 		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBean(result));
 	}
 
-
 	@ApiOperation(value = "登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public WebJsonBean<UserDTO> login(@RequestBody LoginCommand command) {
