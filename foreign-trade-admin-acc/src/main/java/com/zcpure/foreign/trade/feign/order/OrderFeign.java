@@ -1,4 +1,4 @@
-package com.zcpure.foreign.trade.feign;
+package com.zcpure.foreign.trade.feign.order;
 
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.WebJsonBean;

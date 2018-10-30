@@ -1,9 +1,8 @@
 package com.zcpure.foreign.trade.controller.order;
 
 import com.zcpure.foreign.trade.RequestThroughInfo;
-import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.WebJsonBean;
-import com.zcpure.foreign.trade.feign.OrderFeign;
+import com.zcpure.foreign.trade.feign.order.OrderFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
