@@ -46,7 +46,7 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public WebJsonBean<UserDTO> login(@RequestBody LoginCommand command) {
 		UserEntity userEntity = userRepository.findByPhone(command.getUsername());
-		if (userEntity == null && userEntity.getPassword().equals(command.getPassword())) {
+		if (userEntity == null || !userEntity.getPassword().equals(command.getPassword())) {
 			return new WebJsonBean<>(BaseCode.LOGIN_ERROR, null);
 		}
 		return WebJsonBean.SUCCESS(UserEntity.form(userEntity));
