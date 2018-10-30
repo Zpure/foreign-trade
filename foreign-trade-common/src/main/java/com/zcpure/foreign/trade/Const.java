@@ -13,4 +13,6 @@ public class Const {
 	 * 登录账户盐值字符串长度
 	 */
 	public static final int SALT_LENGTH = 12;
+
+	public static final String LOGIN_TOKEN = "login_token_session";
 }

@@ -1,5 +1,6 @@
 package com.zcpure.foreign.trade;
 
+import com.zcpure.foreign.trade.dto.user.UserDTO;
 import lombok.Data;
 
 /**
@@ -8,9 +9,12 @@ import lombok.Data;
  */
 @Data
 public class RequestThroughInfo {
-	private String groupCode;
 	private Long userId;
 	private String userName;
+	private String phone;
+	private Integer userLevel;
+	private String groupCode;
+	private String groupName;
 	private String ip;
 
 	public static RequestThroughInfo defaultInfo() {
@@ -18,6 +22,17 @@ public class RequestThroughInfo {
 		info.setGroupCode("GC001");
 		info.setUserId(1L);
 		info.setUserName("ethan");
+		return info;
+	}
+
+	public static RequestThroughInfo form(UserDTO dto) {
+		RequestThroughInfo info = new RequestThroughInfo();
+		info.setUserId(dto.getId());
+		info.setUserName(dto.getName());
+		info.setGroupCode(dto.getGroupCode());
+		info.setGroupName(dto.getGroupName());
+		info.setPhone(dto.getPhone());
+		info.setUserLevel(dto.getUserLevel());
 		return info;
 	}
 

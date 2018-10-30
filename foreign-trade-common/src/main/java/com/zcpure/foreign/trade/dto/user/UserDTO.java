@@ -25,6 +25,8 @@ public class UserDTO implements Serializable {
 	private String email;
 	@ApiModelProperty(value = "管理员地址")
 	private String address;
+	@ApiModelProperty(value = "管理员等级")
+	private Integer userLevel;
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
 }

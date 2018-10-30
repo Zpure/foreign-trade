@@ -1,4 +1,4 @@
-package com.zcpure.foreign.trade.feign;
+package com.zcpure.foreign.trade.feign.user;
 
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.user.LoginCommand;
