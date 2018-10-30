@@ -11,6 +11,6 @@ public class LoginCommand implements Serializable {
 	@ApiModelProperty(value = "用户名")
 	private String username;
 	@ApiModelProperty(value = "密码")
-	private Integer password;
+	private String password;
 
 }
