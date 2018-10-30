@@ -1,6 +1,7 @@
 package com.zcpure.foreign.trade.goods.service.impl;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
@@ -26,6 +27,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author ethan
@@ -76,9 +79,9 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public PageBean<GoodsDTO> queryPage(GoodsQueryCommand command) {
-		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
-		Page<GoodsDTO> result = goodsMapper.queryPage(command, bounds);
-		return new PageBeanAssembler().toBean(result);
+		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		List<GoodsDTO> result = goodsMapper.queryPage(command);
+		return new PageBeanAssembler().toBeanByList(result);
 	}
 
 	@Override

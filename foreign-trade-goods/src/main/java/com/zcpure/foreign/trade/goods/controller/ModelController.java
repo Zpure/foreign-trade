@@ -1,6 +1,7 @@
 package com.zcpure.foreign.trade.goods.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.ModelAddCommand;
 import com.zcpure.foreign.trade.command.goods.ModelQueryCommand;
@@ -15,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author ethan
@@ -46,8 +49,8 @@ public class ModelController {
 	@ApiOperation(value = "获取型号信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<ModelDTO>> queryByPage(@RequestBody ModelQueryCommand command) {
-		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
-		Page<ModelDTO> result = modelMapper.queryPage(command, bounds);
-		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBean(result));
+		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		List<ModelDTO> result = modelMapper.queryPage(command);
+		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}
 }

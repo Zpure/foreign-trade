@@ -1,6 +1,7 @@
 package com.zcpure.foreign.trade.order.service.impl;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.command.order.*;
@@ -82,9 +83,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public PageBean<OrderDTO> queryPage(OrderQueryCommand command) {
-		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
-		Page<OrderDTO> result = orderMapper.queryPage(command, bounds);
-		return new PageBeanAssembler().toBean(result);
+		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		List<OrderDTO> result = orderMapper.queryPage(command);
+		return new PageBeanAssembler().toBeanByList(result);
 	}
 
 	@Override
@@ -122,6 +123,18 @@ public class OrderServiceImpl implements OrderService {
 			detailEntityList.addAll(newAddEntity);
 			orderRepository.save(orderEntity);
 		}
+	}
+
+	@Override
+	public void confirm(String code) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		OrderEntity orderEntity = orderRepository.findOne(code);
+		Validate.isTrue(orderEntity != null && orderEntity.getGroupCode() == info.getGroupCode(),
+			"订单不存在");
+		Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
+			"订单状态不能确认");
+		orderEntity.setStatus(OrderStatusEnum.CONFIRM.getCode());
+		orderRepository.save(orderEntity);
 	}
 
 	@Override

@@ -17,7 +17,17 @@ public interface OrderService {
 
 	void update(OrderUpdateCommand command);
 
+	void confirm(String code);
+
+	/**
+	 * 订单分配给供应商
+	 * @param command
+	 */
 	void distribution(OrderDistributionCommand command);
 
+	/**
+	 * s实际配货数量
+	 * @param command
+	 */
 	void distributionUpdate(OrderDistributionUpdateCommand command);
 }

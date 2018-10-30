@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @create_time 2018/10/22 11:39
  */
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-	Boolean existsByName(String name);
+	Boolean existsByGroupCodeAndPhone(String groupCode, String phone);
 
 	UserEntity findByPhone(String phone);
 

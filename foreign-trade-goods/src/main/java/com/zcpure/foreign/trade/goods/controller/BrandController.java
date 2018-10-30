@@ -1,6 +1,7 @@
 package com.zcpure.foreign.trade.goods.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.BrandAddCommand;
 import com.zcpure.foreign.trade.command.goods.BrandQueryCommand;
@@ -17,6 +18,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author ethan
@@ -45,9 +48,9 @@ public class BrandController {
 	@ApiOperation(value = "获取品牌信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<BrandDTO>> queryByPage(@RequestBody BrandQueryCommand command) {
-		RowBounds bounds = RowBoundsBuilder.build(command.getPageNo(), command.getPageSize());
-		Page<BrandDTO> result = brandMapper.queryPage(command, bounds);
-		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBean(result));
+		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		List<BrandDTO> result = brandMapper.queryPage(command);
+		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}
 
 	@ApiOperation(value = "获取品牌信息")

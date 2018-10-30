@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @create_time 2018/10/22 15:32
  */
 @RestController
-@RequestMapping("/api/model")
+@RequestMapping("/api/admin/model")
 public class ModelController {
 	@Autowired
 	private ModelFeign modelFeign;

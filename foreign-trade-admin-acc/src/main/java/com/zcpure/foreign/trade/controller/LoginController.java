@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  * @create_time 2018/10/22 13:43
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 @CrossOrigin
 @Api(value = "登录")
 public class LoginController {
