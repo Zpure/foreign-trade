@@ -29,7 +29,7 @@ public class HeaderInfoAccFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		if(request.getRequestURI().contains("/login")) {
+		if(request.getRequestURI().contains("/login") || !request.getRequestURI().startsWith("/api")) {
 			filterChain.doFilter(servletRequest, servletResponse);
 		} else {
 			UserDTO user = (UserDTO) request.getSession().getAttribute(Const.LOGIN_TOKEN);
