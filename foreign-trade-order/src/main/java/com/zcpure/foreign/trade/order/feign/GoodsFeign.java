@@ -18,7 +18,7 @@ public interface GoodsFeign {
 	PageBean<GoodsDTO> queryPage(@RequestBody GoodsQueryCommand command);
 
 	@GetMapping(value = "/api/goods/{code}")
-	GoodsDTO getByCode(@PathVariable String code);
+	GoodsDTO getByCode(@PathVariable("code") String code);
 
 	@GetMapping(value = "/api/goods/batch-code")
 	List<GoodsDTO> getBatchByCode(@RequestParam("codes") String codes);

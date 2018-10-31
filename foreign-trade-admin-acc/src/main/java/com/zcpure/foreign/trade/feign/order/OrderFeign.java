@@ -23,15 +23,15 @@ public interface OrderFeign {
 	WebJsonBean<Void> update(@RequestBody OrderUpdateCommand command);
 
 	@GetMapping(value = "/api/order/detail/{code}")
-	WebJsonBean<OrderDTO> detail(@PathVariable String code);
+	WebJsonBean<OrderDTO> detail(@PathVariable("code") String code);
 
 	@GetMapping(value = "/api/order/confirm/{code}")
-	WebJsonBean<Void> confirm(@PathVariable String code);
+	WebJsonBean<Void> confirm(@PathVariable("code") String code);
 
 	@PostMapping(value = "/api/order/distribution")
-	WebJsonBean<Void> distribution(@PathVariable OrderDistributionCommand command);
+	WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command);
 
 	@PostMapping(value = "/api/order/distribution/update")
-	WebJsonBean<Void> distributionUpdate(@PathVariable OrderDistributionUpdateCommand command);
+	WebJsonBean<Void> distributionUpdate(@RequestBody OrderDistributionUpdateCommand command);
 
 }
