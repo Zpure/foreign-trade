@@ -37,7 +37,7 @@ public class ModelController {
 	}
 
 	@ApiOperation(value = "获取型号信息")
-	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<ModelDTO>> queryByPage(@RequestBody ModelQueryCommand command) {
 		return modelFeign.queryByPage(command);
 	}

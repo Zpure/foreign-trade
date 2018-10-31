@@ -31,7 +31,7 @@ public class BrandController {
 
 
 	@ApiOperation(value = "获取品牌信息")
-	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<BrandDTO>> queryByPage(@RequestBody BrandQueryCommand command) {
 		return brandFeign.queryByPage(command);
 	}
