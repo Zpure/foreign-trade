@@ -1,5 +1,6 @@
 package com.zcpure.foreign.trade.order.dao.entity;
 
+import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import lombok.Data;
 import org.hibernate.annotations.Where;
 
@@ -17,13 +18,15 @@ public class OrderDisDetailEntity extends BaseEntity {
 	private Long detailId;
 	private String orderCode;
 	private String groupCode;
+	private String groupName;
 	private String goodsCode;
-	private String name;
+	private String supplierCode;
+	private String supplierName;
 	private Integer totalNum;
 	private Integer initDisNum;
 	private Integer disNum;
 
-	public static OrderDisDetailEntity form(OrderDetailEntity detailEntity, String disName, Integer num) {
+	public static OrderDisDetailEntity form(OrderDetailEntity detailEntity, SupplierDTO supplier, Integer num) {
 		if(detailEntity == null) {
 			return null;
 		}
@@ -31,8 +34,10 @@ public class OrderDisDetailEntity extends BaseEntity {
 		disDetailEntity.setDetailId(detailEntity.getId());
 		disDetailEntity.setOrderCode(detailEntity.getOrderCode());
 		disDetailEntity.setGroupCode(detailEntity.getGroupCode());
+		disDetailEntity.setGroupName(detailEntity.getGoodsName());
 		disDetailEntity.setGoodsCode(detailEntity.getGoodsCode());
-		disDetailEntity.setName(disName);
+		disDetailEntity.setSupplierCode(supplier.getCode());
+		disDetailEntity.setSupplierName(supplier.getName());
 		disDetailEntity.setTotalNum(detailEntity.getNum());
 		disDetailEntity.setInitDisNum(num);
 		disDetailEntity.setDisNum(0);

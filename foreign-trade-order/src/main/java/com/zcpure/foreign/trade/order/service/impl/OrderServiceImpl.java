@@ -1,12 +1,12 @@
 package com.zcpure.foreign.trade.order.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.zcpure.foreign.trade.Const;
-import com.zcpure.foreign.trade.RequestThroughInfo;
-import com.zcpure.foreign.trade.RequestThroughInfoContext;
+import com.zcpure.foreign.trade.*;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
+import com.zcpure.foreign.trade.dto.user.CustomerDTO;
+import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import com.zcpure.foreign.trade.enums.OrderStatusEnum;
 import com.zcpure.foreign.trade.order.dao.entity.OrderDetailEntity;
 import com.zcpure.foreign.trade.order.dao.entity.OrderDisDetailEntity;
@@ -15,7 +15,9 @@ import com.zcpure.foreign.trade.order.dao.mapper.OrderMapper;
 import com.zcpure.foreign.trade.order.dao.repository.OrderDetailRepository;
 import com.zcpure.foreign.trade.order.dao.repository.OrderDisDetailRepository;
 import com.zcpure.foreign.trade.order.dao.repository.OrderRepository;
+import com.zcpure.foreign.trade.order.feign.CustomerFeign;
 import com.zcpure.foreign.trade.order.feign.GoodsFeign;
+import com.zcpure.foreign.trade.order.feign.SupplierFeign;
 import com.zcpure.foreign.trade.order.service.OrderService;
 import com.zcpure.foreign.trade.order.utils.page.PageBeanAssembler;
 import com.zcpure.foreign.trade.utils.UniqueNoUtils;
@@ -52,6 +54,11 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderDisDetailRepository orderDisDetailRepository;
 
+	@Autowired
+	private CustomerFeign customerFeign;
+	@Autowired
+	private SupplierFeign supplierFeign;
+
 	@Override
 	public void add(OrderAddCommand command) {
 		Validate.isTrue(command.getDetailList() != null && command.getDetailList().size() > 0,
@@ -61,6 +68,13 @@ public class OrderServiceImpl implements OrderService {
 
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		Validate.notNull(info, "用户信息获取失败");
+
+		WebJsonBean<CustomerDTO> customerResult = customerFeign.getByCode(command.getCustomerCode());
+		Validate.isTrue(customerResult.getCode() == BaseCode.SUCCESS.getIndex(),
+			"获取客户信息失败");
+		CustomerDTO customer = customerResult.getData();
+		Validate.isTrue(customer != null && customer.getGroupCode().equals(info.getGroupCode()),
+			"客户信息不存在");
 
 		OrderEntity orderEntity = new OrderEntity();
 		List<OrderDetailEntity> orderDetailList = getOrderDetail(command.getDetailList());
@@ -75,6 +89,8 @@ public class OrderServiceImpl implements OrderService {
 		orderEntity.setTotalAmount(new BigDecimal(orderDetailList.stream()
 			.mapToDouble(item -> item.getSalePrice().multiply(new BigDecimal(item.getNum())).doubleValue()).sum()));
 		orderEntity.setDetailEntityList(orderDetailList);
+		orderEntity.setCustomerCode(customer.getCode());
+		orderEntity.setCustomerName(customer.getName());
 
 		orderRepository.save(orderEntity);
 	}
@@ -144,6 +160,15 @@ public class OrderServiceImpl implements OrderService {
 			"订单不在确认状态：" + orderEntity.getStatus());
 
 		if (command.getDetailList() != null && command.getDetailList().size() > 0) {
+			String codes = command.getDetailList().stream()
+				.map(OrderDistributionDetailCommand::getSupplierCode)
+				.collect(Collectors.joining(","));
+			WebJsonBean<List<SupplierDTO>> supplierResult = supplierFeign.batchByCodes(codes);
+			Validate.isTrue(supplierResult.getCode() == BaseCode.SUCCESS.getIndex());
+			Map<String, SupplierDTO> supplierMap = supplierResult.getData()
+				.stream()
+				.collect(Collectors.toMap(SupplierDTO::getCode, v -> v));
+
 			List<OrderDetailEntity> detailEntityList = orderEntity.getDetailEntityList();
 			command.getDetailList().stream()
 				.collect(Collectors.groupingBy(OrderDistributionDetailCommand::getGoodsCode))
@@ -157,15 +182,18 @@ public class OrderServiceImpl implements OrderService {
 						if (disDetailEntityList == null) {
 							findDetailEntity.setDisDetailEntityList(
 								dataList.stream()
-									.map(item -> OrderDisDetailEntity.form(findDetailEntity, item.getName(), item.getNum()))
-									.collect(Collectors.toList())
+									.map(item -> {
+										SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
+										Validate.notNull(supplier, "供应商不存在：" + item.getSupplierCode());
+										return OrderDisDetailEntity.form(findDetailEntity, supplier, item.getNum());
+									}).collect(Collectors.toList())
 							);
 						} else {
 							List<OrderDistributionDetailCommand> newAdd = new ArrayList<>();
 							dataList.forEach(item -> {
 								OrderDisDetailEntity findDisDetailEntity = disDetailEntityList
 									.stream()
-									.filter(i -> i.getName().equals(item.getName()))
+									.filter(i -> i.getSupplierCode().equals(item.getSupplierCode()))
 									.findFirst()
 									.orElseGet(null);
 								if (findDisDetailEntity != null) {
@@ -175,7 +203,11 @@ public class OrderServiceImpl implements OrderService {
 								}
 								disDetailEntityList.addAll(
 									newAdd.stream()
-										.map(addItem -> OrderDisDetailEntity.form(findDetailEntity, addItem.getName(), addItem.getNum()))
+										.map(addItem -> {
+											SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
+											Validate.notNull(supplier, "供应商不存在：" + addItem.getSupplierCode());
+											return OrderDisDetailEntity.form(findDetailEntity, supplier, addItem.getNum());
+										})
 										.collect(Collectors.toList())
 								);
 							});
@@ -195,10 +227,10 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public void distributionUpdate(OrderDistributionUpdateCommand command) {
-		OrderDisDetailEntity entity = orderDisDetailRepository.getByOrderCodeAndGoodsCodeAndName(
+		OrderDisDetailEntity entity = orderDisDetailRepository.getByOrderCodeAndGoodsCodeAndSupplierCode(
 			command.getOrderCode(),
 			command.getGoodsCode(),
-			command.getName());
+			command.getSupplierCode());
 		if (entity != null) {
 			Integer updateNum = command.getNum() - entity.getDisNum();
 			entity.setDisNum(command.getNum());
@@ -221,7 +253,10 @@ public class OrderServiceImpl implements OrderService {
 	private List<OrderDetailEntity> getOrderDetail(List<OrderAddDetailCommand> detailList) {
 		String goodsCodes = detailList.stream().map(OrderAddDetailCommand::getGoodsCode)
 			.collect(Collectors.joining(","));
-		Map<String, GoodsDTO> goodsMap = goodsFeign.getBatchByCode(goodsCodes)
+		WebJsonBean<List<GoodsDTO>> goodsResult = goodsFeign.getBatchByCode(goodsCodes);
+		Validate.isTrue(goodsResult.getCode() == BaseCode.SUCCESS.getIndex(),
+			"获取商品信息失败");
+		Map<String, GoodsDTO> goodsMap = goodsResult.getData()
 			.stream()
 			.collect(Collectors.toMap(GoodsDTO::getCode, item -> item));
 		return detailList.stream().map(item -> {

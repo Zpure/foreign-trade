@@ -3,7 +3,8 @@
 <mapper namespace="com.zcpure.foreign.trade.order.dao.mapper.OrderMapper">
     <sql id="BASE_COLUMN">
 		create_time, delete_flag,modify_time,
-		code,groupCode,name,total_amount,total_num,status,remark
+		code,group_code,group_name,name,customer_code,customer_name
+		total_amount,total_num,status,remark
 	</sql>
 
     <select id="queryPage" parameterType="com.zcpure.foreign.trade.command.order.OrderQueryCommand"
@@ -19,8 +20,14 @@
             <if test="name != null and name != ''">
                 and name like concat('%',#{name},'%')
             </if>
+            <if test="customerCode != null and customerCode != ''">
+                and customer_code like concat('%',#{customerCode},'%')
+            </if>
+            <if test="customerName != null and customerName != ''">
+                and customer_name like concat('%',#{customerName},'%')
+            </if>
             <if test="status != null">
-                and status like concat('%',#{status},'%')
+                and status = #{status}
             </if>
         </where>
         order by create_time desc

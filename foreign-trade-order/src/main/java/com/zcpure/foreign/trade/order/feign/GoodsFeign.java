@@ -1,5 +1,6 @@
 package com.zcpure.foreign.trade.order.feign;
 
+import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.GoodsQueryCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import com.zcpure.foreign.trade.utils.page.PageBean;
@@ -15,11 +16,11 @@ import java.util.List;
 @FeignClient(name = "foreign-trade-goods")
 public interface GoodsFeign {
 	@PostMapping(value = "/api/goods/page")
-	PageBean<GoodsDTO> queryPage(@RequestBody GoodsQueryCommand command);
+	WebJsonBean<PageBean<GoodsDTO>> queryPage(@RequestBody GoodsQueryCommand command);
 
 	@GetMapping(value = "/api/goods/{code}")
-	GoodsDTO getByCode(@PathVariable("code") String code);
+	WebJsonBean<GoodsDTO> getByCode(@PathVariable("code") String code);
 
 	@GetMapping(value = "/api/goods/batch-code")
-	List<GoodsDTO> getBatchByCode(@RequestParam("codes") String codes);
+	WebJsonBean<List<GoodsDTO>> getBatchByCode(@RequestParam("codes") String codes);
 }

@@ -15,8 +15,14 @@ public class OrderQueryCommand implements Serializable {
 	@ApiModelProperty(value = "订单编码")
 	private String code;
 
-	@ApiModelProperty(value = "订单名称名称")
+	@ApiModelProperty(value = "订单名称")
 	private String name;
+
+	@ApiModelProperty(value = "客户编码")
+	private String customerCode;
+
+	@ApiModelProperty(value = "客户名称")
+	private String customerName;
 
 	@ApiModelProperty(value = "订单状态")
 	private Integer status;

@@ -18,8 +18,14 @@ public class OrderDTO implements Serializable {
 	private String code;
 	@ApiModelProperty("订单所属集团")
 	private String groupCode;
+	@ApiModelProperty("订单所属集团")
+	private String groupName;
 	@ApiModelProperty("订单名称")
 	private String name;
+	@ApiModelProperty(value = "客户编码")
+	private String customerCode;
+	@ApiModelProperty(value = "客户名称")
+	private String customerName;
 	@ApiModelProperty("订单总金额")
 	private BigDecimal totalAmount;
 	@ApiModelProperty("订单总数量")

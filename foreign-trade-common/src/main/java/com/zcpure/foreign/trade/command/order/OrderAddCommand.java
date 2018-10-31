@@ -13,6 +13,9 @@ public class OrderAddCommand implements Serializable {
 	@ApiModelProperty(value = "订单名")
 	private String name;
 
+	@ApiModelProperty(value = "客户编码")
+	private String customerCode;
+
 	@ApiModelProperty(value = "备注")
 	private String remark;
 

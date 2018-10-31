@@ -1,7 +1,9 @@
 package com.zcpure.foreign.trade.user.dao.entity;
 
+import com.zcpure.foreign.trade.command.user.GroupAddCommand;
 import lombok.Data;
 import org.hibernate.annotations.Where;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,4 +28,13 @@ public class GroupEntity extends BaseEntity {
 	private String email;
 	private String address;
 	private String remark;
+
+	public static GroupEntity form(GroupAddCommand command) {
+		if (command == null) {
+			return null;
+		}
+		GroupEntity entity = new GroupEntity();
+		BeanUtils.copyProperties(command, entity);
+		return entity;
+	}
 }

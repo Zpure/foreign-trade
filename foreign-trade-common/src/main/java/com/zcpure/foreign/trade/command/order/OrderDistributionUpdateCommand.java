@@ -16,7 +16,7 @@ public class OrderDistributionUpdateCommand implements Serializable {
 	private String goodsCode;
 
 	@ApiModelProperty(value = "供货人")
-	private String name;
+	private String supplierCode;
 
 	@ApiModelProperty(value = "数量")
 	private Integer num;

@@ -27,7 +27,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin
 @Api(value = "管理员用户")
 public class UserController {
 	@Autowired
@@ -40,7 +39,7 @@ public class UserController {
 
 	@ApiOperation(value = "添加用户信息")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public WebJsonBean<Void> queryByPage(@RequestBody UserAddCommand command) {
+	public WebJsonBean<Void> add(@RequestBody UserAddCommand command) {
 		userService.add(command);
 		return WebJsonBean.SUCCESS();
 	}

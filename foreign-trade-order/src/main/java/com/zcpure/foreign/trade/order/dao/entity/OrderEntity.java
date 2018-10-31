@@ -19,6 +19,9 @@ public class OrderEntity extends BaseEntity {
 	@Column(length = 64, unique = true, updatable = false)
 	private String code;
 	private String groupCode;
+	private String groupName;
+	private String customerCode;
+	private String customerName;
 	private String name;
 	private BigDecimal totalAmount;
 	private Integer totalNum;
