@@ -2,6 +2,7 @@ package com.zcpure.foreign.trade.goods.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.command.goods.ModelAddCommand;
 import com.zcpure.foreign.trade.command.goods.ModelQueryCommand;
 import com.zcpure.foreign.trade.command.goods.ModelUpdateCommand;
@@ -58,7 +59,8 @@ public class ModelServiceImpl implements ModelService {
 
 	@Override
 	public PageBean<ModelDTO> queryPage(ModelQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<ModelDTO> result = modelMapper.queryPage(command);
 		return new PageBeanAssembler().toBeanByList(result);
 	}

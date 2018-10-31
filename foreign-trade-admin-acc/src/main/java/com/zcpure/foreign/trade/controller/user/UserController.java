@@ -39,7 +39,7 @@ public class UserController {
 
 	@ApiOperation(value = "获取用户信息")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public WebJsonBean<PageBean<UserDTO>> queryByPage(@RequestBody UserQueryCommand command) {
+	public WebJsonBean<PageBean<UserDTO>> queryByPage(UserQueryCommand command) {
 		return userFeign.page(command);
 	}
 

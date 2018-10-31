@@ -2,6 +2,7 @@ package com.zcpure.foreign.trade.goods.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
@@ -79,7 +80,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public PageBean<GoodsDTO> queryPage(GoodsQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<GoodsDTO> result = goodsMapper.queryPage(command);
 		return new PageBeanAssembler().toBeanByList(result);
 	}

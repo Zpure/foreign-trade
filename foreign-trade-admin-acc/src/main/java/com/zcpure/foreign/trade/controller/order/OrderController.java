@@ -30,7 +30,7 @@ public class OrderController {
 
 	@ApiOperation(value = "查询订单")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public WebJsonBean<PageBean<OrderDTO>> page(@RequestBody OrderQueryCommand command) {
+	public WebJsonBean<PageBean<OrderDTO>> page(OrderQueryCommand command) {
 		return WebJsonBean.SUCCESS(orderFeign.page(command));
 	}
 
@@ -54,13 +54,13 @@ public class OrderController {
 
 	@ApiOperation(value = "分配订单")
 	@RequestMapping(value = "/distribution", method = RequestMethod.POST)
-	public WebJsonBean<Void> distribution(@PathVariable OrderDistributionCommand command) {
+	public WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command) {
 		return orderFeign.distribution(command);
 	}
 
 	@ApiOperation(value = "订单配货")
 	@RequestMapping(value = "/distribution/update", method = RequestMethod.POST)
-	public WebJsonBean<Void> distributionUpdate(@PathVariable OrderDistributionUpdateCommand command) {
+	public WebJsonBean<Void> distributionUpdate(@RequestBody OrderDistributionUpdateCommand command) {
 		return orderFeign.distributionUpdate(command);
 	}
 }

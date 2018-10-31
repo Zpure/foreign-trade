@@ -2,6 +2,7 @@ package com.zcpure.foreign.trade.user.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.BaseCode;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.user.LoginCommand;
 import com.zcpure.foreign.trade.command.user.UserAddCommand;
@@ -54,7 +55,8 @@ public class UserController {
 	@ApiOperation(value = "获取用户信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<UserDTO>> queryByPage(@RequestBody UserQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<UserDTO> result = userMapper.queryPage(command);
 		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}

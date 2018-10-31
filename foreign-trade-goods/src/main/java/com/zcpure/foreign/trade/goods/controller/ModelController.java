@@ -2,6 +2,7 @@ package com.zcpure.foreign.trade.goods.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.ModelAddCommand;
 import com.zcpure.foreign.trade.command.goods.ModelQueryCommand;
@@ -49,7 +50,8 @@ public class ModelController {
 	@ApiOperation(value = "获取型号信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<ModelDTO>> queryByPage(@RequestBody ModelQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<ModelDTO> result = modelMapper.queryPage(command);
 		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}

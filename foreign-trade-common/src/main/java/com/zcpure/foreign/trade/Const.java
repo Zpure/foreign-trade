@@ -15,4 +15,8 @@ public class Const {
 	public static final int SALT_LENGTH = 12;
 
 	public static final String LOGIN_TOKEN = "login_token_session";
+
+	public static final int PAGE_DEFAULT_SIZE = 20;
+
+	public static final int PAGE_DEFAULT_NO= 1;
 }

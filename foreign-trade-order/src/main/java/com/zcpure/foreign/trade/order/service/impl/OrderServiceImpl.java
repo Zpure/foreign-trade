@@ -1,7 +1,7 @@
 package com.zcpure.foreign.trade.order.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.command.order.*;
@@ -18,12 +18,10 @@ import com.zcpure.foreign.trade.order.dao.repository.OrderRepository;
 import com.zcpure.foreign.trade.order.feign.GoodsFeign;
 import com.zcpure.foreign.trade.order.service.OrderService;
 import com.zcpure.foreign.trade.order.utils.page.PageBeanAssembler;
-import com.zcpure.foreign.trade.order.utils.page.RowBoundsBuilder;
 import com.zcpure.foreign.trade.utils.UniqueNoUtils;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +81,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public PageBean<OrderDTO> queryPage(OrderQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<OrderDTO> result = orderMapper.queryPage(command);
 		return new PageBeanAssembler().toBeanByList(result);
 	}

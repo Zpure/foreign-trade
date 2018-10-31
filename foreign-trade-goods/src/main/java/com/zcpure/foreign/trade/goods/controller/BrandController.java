@@ -2,6 +2,7 @@ package com.zcpure.foreign.trade.goods.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.BrandAddCommand;
 import com.zcpure.foreign.trade.command.goods.BrandQueryCommand;
@@ -48,7 +49,8 @@ public class BrandController {
 	@ApiOperation(value = "获取品牌信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<BrandDTO>> queryByPage(@RequestBody BrandQueryCommand command) {
-		PageHelper.startPage(command.getPageNo(), command.getPageSize());
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<BrandDTO> result = brandMapper.queryPage(command);
 		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}
