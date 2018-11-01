@@ -19,11 +19,11 @@ public interface CategoryFeign {
 	WebJsonBean<Void> add(@RequestBody CategoryAddCommand command);
 
 	@GetMapping("/api/category/child/{id}")
-	WebJsonBean<List<CategoryDTO>> getChild(@PathVariable Long id);
+	WebJsonBean<List<CategoryDTO>> getChild(@PathVariable("id") Long id);
 
 	@GetMapping("/api/category/link/{id}")
-	WebJsonBean<CategoryLinkDTO> getLink(@PathVariable Long id);
+	WebJsonBean<CategoryLinkDTO> getLink(@PathVariable("id") Long id);
 
 	@GetMapping("/api/category/link-str/{id}")
-	WebJsonBean<String> getLinkStr(@PathVariable Long id);
+	WebJsonBean<String> getLinkStr(@PathVariable("id") Long id);
 }

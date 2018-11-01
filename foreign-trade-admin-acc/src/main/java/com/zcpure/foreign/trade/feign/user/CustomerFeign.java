@@ -22,7 +22,7 @@ public interface CustomerFeign {
 	WebJsonBean<Void> add(@RequestBody CustomerAddCommand command);
 
 	@GetMapping(value = "/api/customer/{code}")
-	WebJsonBean<CustomerDTO> getByCode(@PathVariable String code);
+	WebJsonBean<CustomerDTO> getByCode(@PathVariable("code") String code);
 
 	@PostMapping(value = "/api/customer/update")
 	WebJsonBean<Void> update(@RequestBody CustomerUpdateCommand command);

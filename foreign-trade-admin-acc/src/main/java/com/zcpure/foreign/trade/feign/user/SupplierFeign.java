@@ -23,19 +23,19 @@ public interface SupplierFeign {
 	WebJsonBean<Void> addGoods(@RequestBody SupplierGoodsAddCommand command);
 
 	@GetMapping(value = "/api/supplier/{code}")
-	WebJsonBean<SupplierDTO> getByCode(@PathVariable String code);
+	WebJsonBean<SupplierDTO> getByCode(@PathVariable("code") String code);
 
 	@GetMapping(value = "/api/supplier/batch")
 	WebJsonBean<SupplierDTO> batchByCodes(@RequestParam("codes") String codes);
 
 	@GetMapping(value = "/api/supplier/detail/{code}")
-	WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable String code);
+	WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable("code") String code);
 
 	@PostMapping(value = "/api/supplier/stop/{code}")
-	WebJsonBean<Void> stop(@PathVariable String code);
+	WebJsonBean<Void> stop(@PathVariable("code") String code);
 
 	@PostMapping(value = "/api/supplier/stop/goods/{id}")
-	WebJsonBean<Void> stopGoods(@PathVariable Long id);
+	WebJsonBean<Void> stopGoods(@PathVariable("id") Long id);
 
 	@PostMapping(value = "/api/supplier/page")
 	WebJsonBean<PageBean<SupplierDTO>> queryByPage(@RequestBody SupplierQueryCommand command);

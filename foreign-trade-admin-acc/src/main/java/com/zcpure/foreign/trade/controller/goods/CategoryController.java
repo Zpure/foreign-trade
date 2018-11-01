@@ -29,19 +29,19 @@ public class CategoryController {
 
 	@ApiOperation(value = "获取子分类")
 	@RequestMapping(value = "/child/{id}", method = RequestMethod.GET)
-	public WebJsonBean<List<CategoryDTO>> getChild(@PathVariable Long id) {
+	public WebJsonBean<List<CategoryDTO>> getChild(@PathVariable("id") Long id) {
 		return categoryFeign.getChild(id);
 	}
 
 	@ApiOperation(value = "获取分类链")
 	@RequestMapping(value = "/link/{id}", method = RequestMethod.GET)
-	public WebJsonBean<CategoryLinkDTO> getLink(@PathVariable Long id) {
+	public WebJsonBean<CategoryLinkDTO> getLink(@PathVariable("id") Long id) {
 		return categoryFeign.getLink(id);
 	}
 
 	@ApiOperation(value = "获取分类链")
 	@RequestMapping(value = "/link-str/{id}", method = RequestMethod.GET)
-	public WebJsonBean<String> getLinkStr(@PathVariable Long id) {
+	public WebJsonBean<String> getLinkStr(@PathVariable("id") Long id) {
 		return categoryFeign.getLinkStr(id);
 	}
 }

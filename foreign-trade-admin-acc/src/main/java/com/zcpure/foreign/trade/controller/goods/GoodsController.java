@@ -36,7 +36,7 @@ public class GoodsController {
 
 	@ApiOperation(value = "获取商品信息")
 	@RequestMapping(value = "/{code}")
-	public WebJsonBean<GoodsDTO> getByCode(@PathVariable String code) {
+	public WebJsonBean<GoodsDTO> getByCode(@PathVariable("code") String code) {
 		return goodsFeign.getByCode(code);
 	}
 

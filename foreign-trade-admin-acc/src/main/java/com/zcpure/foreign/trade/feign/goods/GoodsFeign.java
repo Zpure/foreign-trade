@@ -22,7 +22,7 @@ public interface GoodsFeign {
 	WebJsonBean<PageBean<GoodsDTO>> queryByPage(@RequestBody GoodsQueryCommand command);
 
 	@GetMapping("/api/goods/{code}")
-	WebJsonBean<GoodsDTO> getByCode(@PathVariable String code);
+	WebJsonBean<GoodsDTO> getByCode(@PathVariable("code") String code);
 
 	@GetMapping("/api/goods/batch-code")
 	WebJsonBean<GoodsDTO> batchByCode(@RequestParam("codes") String codes);

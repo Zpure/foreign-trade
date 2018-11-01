@@ -57,7 +57,7 @@ public class SupplierController {
 
 	@ApiOperation(value = "供应商信息")
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET)
-	public WebJsonBean<SupplierDTO> getByCode(@PathVariable String code) {
+	public WebJsonBean<SupplierDTO> getByCode(@PathVariable("code") String code) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(code);
 		if(supplierEntity == null || !supplierEntity.getGroupCode().equals(info.getGroupCode())) {
@@ -84,7 +84,7 @@ public class SupplierController {
 
 	@ApiOperation(value = "供应商详情")
 	@RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
-	public WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable String code) {
+	public WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable("code") String code) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(code);
 		if(supplierEntity == null || supplierEntity.getGroupCode() != info.getGroupCode()) {
