@@ -41,7 +41,9 @@ public class UserServiceImpl implements UserService {
 	public void add(UserAddCommand command) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		Validate.isTrue(userRepository.existsByGroupCodeAndPhone(info.getGroupCode(), command.getPhone()),
-			"改手机号已经存在");
+			"该手机号已经存在");
+		Validate.isTrue(userRepository.existsByGroupCodeAndName(info.getGroupCode(), command.getName()),
+			"该用户名已经存在");
 		GroupEntity groupEntity = groupRepository.findOne(command.getGroupCode());
 		UserEntity userEntity = UserEntity.form(info, command, groupEntity);
 		userRepository.save(userEntity);

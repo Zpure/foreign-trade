@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 	Boolean existsByGroupCodeAndPhone(String groupCode, String phone);
 
+	Boolean existsByGroupCodeAndName(String groupCode, String name);
+
 	UserEntity findByPhone(String phone);
 
 	UserEntity findByName(String name);
