@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -35,14 +35,14 @@ public class UploadController {
 
 	@ApiOperation(value = "上传图片")
 	@RequestMapping(value = "/img", method = RequestMethod.POST)
-	public WebJsonBean<List<String>> img(@RequestParam("file") MultipartFile file) throws IOException {
+	public WebJsonBean<Map<String, String>> img(@RequestParam("file") MultipartFile file) throws IOException {
 		String dateToNumber = DateUtil.getDateToNumber("yyyyMMdd");
 		String savePath = imgPath + "/" + dateToNumber;
 		File saveFile = new File(savePath);
 		if (!saveFile.exists()) {
 			saveFile.mkdirs();
 		}
-		List<String> fileNames = new ArrayList<>();
+		Map<String, String> result = new HashMap<>();
 		Validate.isTrue(!file.isEmpty(), "文件为空");
 		String originalFilename = file.getOriginalFilename();
 		String temp[] = originalFilename.split("\\.");
@@ -50,7 +50,8 @@ public class UploadController {
 		suffixStr = suffixStr.toLowerCase();
 		String key = UUID.randomUUID().toString() + "." + suffixStr;
 		FileUtil.SaveFileFromInputStream(file.getInputStream(), savePath, key);
-		fileNames.add(cdnUrl + "img/" + dateToNumber + "/" + key);
-		return WebJsonBean.SUCCESS(fileNames);
+		result.put("uid", key);
+		result.put("uri", cdnUrl + "img/" + dateToNumber + "/" + key);
+		return WebJsonBean.SUCCESS(result);
 	}
 }
