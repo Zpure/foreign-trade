@@ -39,7 +39,6 @@
 
     <update id="update" parameterType="com.zcpure.foreign.trade.command.user.CustomerUpdateCommand">
         update ft_customer set
-        name = #{name},
         phone = #{phone},
         email = #{email},
         address = #{address},

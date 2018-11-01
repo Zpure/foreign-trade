@@ -20,6 +20,8 @@ import java.io.OutputStream;
 public class HeaderInfoAccFilter implements Filter {
 	private static final Logger log = LoggerFactory.getLogger(HeaderInfoAccFilter.class);
 
+	private Boolean noLogin = false;
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -29,7 +31,7 @@ public class HeaderInfoAccFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		if(request.getRequestURI().contains("/login") || !request.getRequestURI().startsWith("/api")) {
+		if(noLogin || request.getRequestURI().contains("/login") || !request.getRequestURI().startsWith("/api")) {
 			filterChain.doFilter(servletRequest, servletResponse);
 		} else {
 			UserDTO user = (UserDTO) request.getSession().getAttribute(Const.LOGIN_TOKEN);

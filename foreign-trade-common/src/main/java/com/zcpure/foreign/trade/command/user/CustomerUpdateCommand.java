@@ -19,7 +19,6 @@ public class CustomerUpdateCommand implements Serializable {
 	private String groupCode;
 	@NotNull(message = "客户编码不能为空")
 	private String code;
-	private String name;
 	private String phone;
 	private String email;
 	private String address;

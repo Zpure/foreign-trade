@@ -19,7 +19,6 @@ public class SupplierUpdateCommand implements Serializable {
 	private String groupCode;
 	@NotNull(message = "供应商编码不能为空")
 	private String code;
-	private String name;
 	private String phone;
 	private String email;
 	private String address;
