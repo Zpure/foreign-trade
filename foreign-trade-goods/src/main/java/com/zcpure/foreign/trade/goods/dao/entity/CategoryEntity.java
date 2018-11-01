@@ -1,9 +1,11 @@
 package com.zcpure.foreign.trade.goods.dao.entity;
 
 import com.zcpure.foreign.trade.command.goods.CategoryAddCommand;
+import com.zcpure.foreign.trade.dto.goods.CategoryDTO;
 import com.zcpure.foreign.trade.dto.goods.CategoryLinkDTO;
 import lombok.Data;
 import org.hibernate.annotations.Where;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 
@@ -30,6 +32,15 @@ public class CategoryEntity extends BaseEntity {
 		entity.setName(command.getName());
 		entity.setParentId(command.getParentId());
 		return entity;
+	}
+
+	public static CategoryDTO formDTO(CategoryEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		CategoryDTO dto = new CategoryDTO();
+		BeanUtils.copyProperties(entity, dto);
+		return dto;
 	}
 
 	public static CategoryLinkDTO toLinkDTO(CategoryEntity entity) {

@@ -63,7 +63,7 @@ public class UserController {
 	@ApiOperation(value = "登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public WebJsonBean<UserDTO> login(@RequestBody LoginCommand command) {
-		UserEntity userEntity = userRepository.findByPhone(command.getUsername());
+		UserEntity userEntity = userRepository.findByName(command.getUsername());
 		if (userEntity == null || !userEntity.getPassword().equals(command.getPassword())) {
 			return new WebJsonBean<>(BaseCode.LOGIN_ERROR, null);
 		}

@@ -54,7 +54,7 @@ public class WebJsonBean<T> {
 		this.data = data;
 	}
 
-	public static WebJsonBean<Void> SUCCESS() {
+	public static WebJsonBean SUCCESS() {
 		return new WebJsonBean(BaseCode.SUCCESS);
 	}
 
@@ -62,11 +62,11 @@ public class WebJsonBean<T> {
 		return new WebJsonBean(BaseCode.SUCCESS, data);
 	}
 
-	public static WebJsonBean<Void> FAIL() {
+	public static WebJsonBean FAIL() {
 		return new WebJsonBean(BaseCode.FAIL);
 	}
 
-	public static WebJsonBean<Void> FAIL(String msg) {
+	public static WebJsonBean FAIL(String msg) {
 		return new WebJsonBean(BaseCode.FAIL, msg);
 	}
 }
