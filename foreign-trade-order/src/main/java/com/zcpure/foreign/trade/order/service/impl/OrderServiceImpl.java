@@ -29,9 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -63,6 +61,11 @@ public class OrderServiceImpl implements OrderService {
 	public void add(OrderAddCommand command) {
 		Validate.isTrue(command.getDetailList() != null && command.getDetailList().size() > 0,
 			"下单商品信息不存在");
+		Set<String> goodsCodeSet = new HashSet<>();
+		command.getDetailList().forEach(item -> {
+			Validate.isTrue(!goodsCodeSet.contains(item.getGoodsCode()), "下单商品重复：" + item.getGoodsCode());
+			goodsCodeSet.add(item.getGoodsCode());
+		});
 
 		String orderCode = UniqueNoUtils.next(UniqueNoUtils.UniqueNoType.SO);
 

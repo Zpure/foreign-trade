@@ -6,7 +6,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-@Table(name = "ft_order_detail_dis")
+@Table(name = "ft_order_detail_dis", uniqueConstraints = {@UniqueConstraint(columnNames={"order_code", "goods_code", "supplier_code"})})
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data

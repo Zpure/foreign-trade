@@ -56,7 +56,7 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public void addGoods(SupplierGoodsAddCommand command) {
-		SupplierGoodsEntity existSupplierGoodsEntity = supplierGoodsRepository.findBySupplierCodeAndGoodsCode(command.getSupplierCode(), command.getSupplierCode());
+		SupplierGoodsEntity existSupplierGoodsEntity = supplierGoodsRepository.findBySupplierCodeAndGoodsCode(command.getSupplierCode(), command.getGoodsCode());
 		Validate.isTrue(existSupplierGoodsEntity == null,
 			"该供应信息已存在");
 

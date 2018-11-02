@@ -62,14 +62,14 @@ public class OrderController {
 
 	@ApiOperation(value = "分配订单")
 	@RequestMapping(value = "/distribution", method = RequestMethod.POST)
-	public WebJsonBean<Void> distribution(@PathVariable OrderDistributionCommand command) {
+	public WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command) {
 		orderService.distribution(command);
 		return WebJsonBean.SUCCESS();
 	}
 
 	@ApiOperation(value = "订单配货")
 	@RequestMapping(value = "/distribution/update", method = RequestMethod.POST)
-	public WebJsonBean<Void> distributionUpdate(@PathVariable OrderDistributionUpdateCommand command) {
+	public WebJsonBean<Void> distributionUpdate(@RequestBody OrderDistributionUpdateCommand command) {
 		orderService.distributionUpdate(command);
 		return WebJsonBean.SUCCESS();
 	}
