@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 /**
  * 管理用户
  */
-@Table(name = "ft_supplier")
+@Table(name = "ft_supplier_goods")
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data
