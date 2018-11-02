@@ -127,12 +127,11 @@ public class OrderServiceImpl implements OrderService {
 			List<OrderAddDetailCommand> newAdd = new ArrayList<>();
 			List<OrderDetailEntity> detailEntityList = orderEntity.getDetailEntityList();
 			command.getDetailList().forEach(item -> {
-				OrderDetailEntity findEntity = detailEntityList.stream()
+				Optional<OrderDetailEntity> findEntityOp = detailEntityList.stream()
 					.filter(i -> i.getGoodsCode().equals(item.getGoodsCode()))
-					.findFirst()
-					.orElseGet(null);
-				if (findEntity != null) {
-					findEntity.setNum(item.getBuyNum());
+					.findFirst();
+				if (findEntityOp.isPresent()) {
+					findEntityOp.get().setNum(item.getBuyNum());
 				} else {
 					newAdd.add(item);
 				}
@@ -177,11 +176,11 @@ public class OrderServiceImpl implements OrderService {
 			command.getDetailList().stream()
 				.collect(Collectors.groupingBy(OrderDistributionDetailCommand::getGoodsCode))
 				.forEach((goodsCode, dataList) -> {
-					OrderDetailEntity findDetailEntity = detailEntityList.stream()
+					Optional<OrderDetailEntity> findDetailEntityOp = detailEntityList.stream()
 						.filter(i -> i.getGoodsCode().equals(goodsCode))
-						.findFirst()
-						.orElseGet(null);
-					if (findDetailEntity != null) {
+						.findFirst();
+					if (findDetailEntityOp.isPresent()) {
+						OrderDetailEntity findDetailEntity = findDetailEntityOp.get();
 						List<OrderDisDetailEntity> disDetailEntityList = findDetailEntity.getDisDetailEntityList();
 						if (disDetailEntityList == null) {
 							findDetailEntity.setDisDetailEntityList(
@@ -195,13 +194,12 @@ public class OrderServiceImpl implements OrderService {
 						} else {
 							List<OrderDistributionDetailCommand> newAdd = new ArrayList<>();
 							dataList.forEach(item -> {
-								OrderDisDetailEntity findDisDetailEntity = disDetailEntityList
+								Optional<OrderDisDetailEntity> findDisDetailEntityOp = disDetailEntityList
 									.stream()
 									.filter(i -> i.getSupplierCode().equals(item.getSupplierCode()))
-									.findFirst()
-									.orElseGet(null);
-								if (findDisDetailEntity != null) {
-									findDisDetailEntity.setInitDisNum(item.getNum());
+									.findFirst();
+								if (findDisDetailEntityOp.isPresent()) {
+									findDisDetailEntityOp.get().setInitDisNum(item.getNum());
 								} else {
 									newAdd.add(item);
 								}
