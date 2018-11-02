@@ -11,7 +11,7 @@
 	<select id="queryPage" parameterType="com.zcpure.foreign.trade.command.goods.GoodsQueryCommand"
 		resultType="com.zcpure.foreign.trade.dto.goods.GoodsDTO">
 		select
-		id, <include refid="BASE_COLUMN" />
+		<include refid="BASE_COLUMN" />
 		from ft_goods
 		<where>
 			group_code = #{groupCode} and delete_flag = 0
@@ -31,6 +31,6 @@
 				and status like concat('%',#{status},'%')
 			</if>
 		</where>
-		order by id desc
+		order by priority, create_time desc
 	</select>
 </mapper>
