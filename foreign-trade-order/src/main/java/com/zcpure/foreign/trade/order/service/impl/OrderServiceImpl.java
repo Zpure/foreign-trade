@@ -82,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
 
 		orderEntity.setCode(orderCode);
 		orderEntity.setGroupCode(info.getGroupCode());
+		orderEntity.setGroupName(info.getGroupName());
 		orderEntity.setName(command.getName());
 		orderEntity.setRemark(command.getRemark());
 		orderEntity.setStatus(OrderStatusEnum.INIT.getCode());
@@ -144,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
 	public void confirm(String code) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		OrderEntity orderEntity = orderRepository.findOne(code);
-		Validate.isTrue(orderEntity != null && orderEntity.getGroupCode() == info.getGroupCode(),
+		Validate.isTrue(orderEntity != null && orderEntity.getGroupCode().equals(info.getGroupCode()),
 			"订单不存在");
 		Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
 			"订单状态不能确认");

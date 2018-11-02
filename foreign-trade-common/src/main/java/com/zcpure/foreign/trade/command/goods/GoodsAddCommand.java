@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.command.goods;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -11,7 +12,9 @@ import java.math.BigDecimal;
  * 型号数据
  */
 @Data
-public class GoodsAddCommand {
+public class GoodsAddCommand implements Serializable {
+	private static final long serialVersionUID = -7328075393067899897L;
+
 	@ApiModelProperty("商品名称")
 	private String name;
 

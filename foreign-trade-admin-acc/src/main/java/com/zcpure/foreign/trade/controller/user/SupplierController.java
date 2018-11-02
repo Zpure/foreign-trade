@@ -67,7 +67,7 @@ public class SupplierController {
 
 	@ApiOperation(value = "获取供应商列表信息")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public WebJsonBean<PageBean<SupplierDTO>> queryByPage(@RequestBody SupplierQueryCommand command) {
+	public WebJsonBean<PageBean<SupplierDTO>> queryByPage(SupplierQueryCommand command) {
 		return supplierFeign.queryByPage(command);
 	}
 

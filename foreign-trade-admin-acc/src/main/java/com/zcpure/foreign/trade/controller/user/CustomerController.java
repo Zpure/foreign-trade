@@ -43,7 +43,7 @@ public class CustomerController {
 
 	@ApiOperation(value = "获取客户列表信息")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public WebJsonBean<PageBean<CustomerDTO>> queryByPage(@RequestBody CustomerQueryCommand command) {
+	public WebJsonBean<PageBean<CustomerDTO>> queryByPage(CustomerQueryCommand command) {
 		return customerFeign.queryByPage(command);
 	}
 

@@ -8,9 +8,9 @@ import feign.codec.ErrorDecoder;
 import java.io.IOException;
 
 public class FeignClientErrorDecoder implements ErrorDecoder {
-	
+
 	private ErrorDecoder DEFAULT_DECODER = new Default();
-	
+
 	@Override
 	public Exception decode(String methodKey, Response response) {
 		if (response.status() == 400 || response.status() == 500) {
@@ -22,5 +22,5 @@ public class FeignClientErrorDecoder implements ErrorDecoder {
 		}
 		return DEFAULT_DECODER.decode(methodKey, response);
 	}
-	
+
 }
