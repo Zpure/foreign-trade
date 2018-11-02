@@ -115,6 +115,8 @@ public class SupplierController {
 	@ApiOperation(value = "获取供应商列表信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<SupplierDTO>> queryByPage(@RequestBody SupplierQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
 		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
 			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<SupplierDTO> result = supplierMapper.queryPage(command);

@@ -66,6 +66,8 @@ public class CustomerController {
 	@ApiOperation(value = "获取客户列表信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<CustomerDTO>> queryByPage(@RequestBody CustomerQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
 		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
 			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<CustomerDTO> result = customerMapper.queryPage(command);
