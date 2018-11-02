@@ -29,7 +29,7 @@ public class GoodsController {
 	}
 
 	@ApiOperation(value = "获取品牌信息")
-	@RequestMapping(value = "/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<GoodsDTO>> queryByPage(@RequestBody GoodsQueryCommand command) {
 		return goodsFeign.queryByPage(command);
 	}

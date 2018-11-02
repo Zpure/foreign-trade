@@ -33,6 +33,12 @@ public class CategoryController {
 		return categoryFeign.getChild(id);
 	}
 
+	@ApiOperation(value = "获取子分类")
+	@RequestMapping(value = "/child/root", method = RequestMethod.GET)
+	public WebJsonBean<List<CategoryDTO>> getRootChild() {
+		return categoryFeign.getChild(0L);
+	}
+
 	@ApiOperation(value = "获取分类链")
 	@RequestMapping(value = "/link/{id}", method = RequestMethod.GET)
 	public WebJsonBean<CategoryLinkDTO> getLink(@PathVariable("id") Long id) {
