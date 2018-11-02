@@ -3,7 +3,7 @@
 <mapper namespace="com.zcpure.foreign.trade.goods.dao.mapper.GoodsMapper">
 	<sql id="BASE_COLUMN">
 		create_time, delete_flag,modify_time,
-		group_code,code,name,brand_id,brand_name,model_id,model_name,
+		group_code,group_name,code,name,brand_id,brand_name,model_id,model_name,
 		category_id,category_name,category_link_name,
 		cost_price,sale_price,main_img,other_img,desc_info,status,priority
 	</sql>

@@ -20,6 +20,8 @@ public class GoodsDTO implements Serializable {
 
 	@ApiModelProperty(value = "集团编码")
 	private String groupCode;
+	@ApiModelProperty(value = "集团名称")
+	private String groupName;
 	@ApiModelProperty(value = "商品编码")
 	private String code;
 	@ApiModelProperty(value = "商品名称")

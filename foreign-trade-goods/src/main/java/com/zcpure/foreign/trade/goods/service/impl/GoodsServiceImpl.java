@@ -70,9 +70,6 @@ public class GoodsServiceImpl implements GoodsService {
 		String goodsCode = UniqueNoUtils.next(UniqueNoUtils.UniqueNoType.GC);
 		GoodsEntity goodsEntity = GoodsEntity.form(goodsCode, command, modelEntity,
 			categoryEntity, categoryLinkDTO.toLinkStr());
-		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
-		Validate.notNull(info, "用户信息获取失败");
-		goodsEntity.setGroupCode(info.getGroupCode());
 
 		goodsRepository.save(goodsEntity);
 

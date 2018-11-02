@@ -1,11 +1,14 @@
 package com.zcpure.foreign.trade.goods.dao.entity;
 
+import com.zcpure.foreign.trade.RequestThroughInfo;
+import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.enums.GoodsStatusEnum;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import io.swagger.models.auth.In;
 import lombok.Data;
 import org.hibernate.annotations.Where;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +30,7 @@ public class GoodsEntity extends BaseEntity {
 	@Column(length = 64, unique = true, updatable = false)
 	private String code;
 	private String groupCode;
+	private String groupName;
 	private String name;
 	private Long brandId;
 	private String brandName;
@@ -63,6 +67,10 @@ public class GoodsEntity extends BaseEntity {
 		goodsEntity.setDescInfo(command.getDescInfo());
 		goodsEntity.setStatus(GoodsStatusEnum.OFF_SALE.getCode());
 		goodsEntity.setPriority(command.getPriority());
+
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		goodsEntity.setGroupCode(info.getGroupCode());
+		goodsEntity.setGroupName(info.getGroupName());
 		return goodsEntity;
 	}
 
@@ -71,24 +79,7 @@ public class GoodsEntity extends BaseEntity {
 			return null;
 		}
 		GoodsDTO dto = new GoodsDTO();
-		dto.setGroupCode(entity.getGroupCode());
-		dto.setCode(entity.getCode());
-		dto.setName(entity.getName());
-		dto.setBrandId(entity.getBrandId());
-		dto.setBrandName(entity.getBrandName());
-		dto.setModelId(entity.getModelId());
-		dto.setModelName(entity.getModelName());
-		dto.setCategoryId(entity.getCategoryId());
-		dto.setCategoryName(entity.getCategoryName());
-		dto.setCategoryLinkName(entity.getCategoryLinkName());
-		dto.setCostPrice(entity.getCostPrice());
-		dto.setSalePrice(entity.getSalePrice());
-		dto.setMainImg(entity.getMainImg());
-		dto.setOtherImg(entity.getOtherImg());
-		dto.setDescInfo(entity.getDescInfo());
-		dto.setStatus(entity.getStatus());
-		dto.setPriority(entity.getPriority());
-		dto.setCreateTime(entity.getCreateTime());
+		BeanUtils.copyProperties(entity, dto);
 		return dto;
 	}
 }

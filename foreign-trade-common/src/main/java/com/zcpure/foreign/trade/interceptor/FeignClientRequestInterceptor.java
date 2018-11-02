@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * @author ethan
@@ -26,7 +27,7 @@ public class FeignClientRequestInterceptor implements RequestInterceptor {
 			try {
 				String infoStr = JSON.toJSONString(info);
 				requestTemplate.header(RequestThroughInfoContext.KEY_INFO_IN_HTTP_HEADER,
-					new String[]{URLDecoder.decode(infoStr, "UTF-8")});
+					new String[]{URLEncoder.encode(infoStr, "UTF-8")});
 			} catch (UnsupportedEncodingException e) {
 				log.error("信息设置错误", e);
 			}
