@@ -63,7 +63,7 @@ public class GoodsController {
 
 	@ApiOperation(value = "批量获取商品信息")
 	@RequestMapping(value = "/batch-code")
-	public WebJsonBean<GoodsDTO> batchByCode(@RequestParam("codes") String codes) {
+	public WebJsonBean<List<GoodsDTO>> batchByCode(@RequestParam("codes") String codes) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		List<String> codeList = Arrays.asList(codes.split(","));
 		List<GoodsEntity> entityList = goodsRepository.findByCodeIn(codeList);
@@ -73,6 +73,7 @@ public class GoodsController {
 			.isPresent()) {
 			return new WebJsonBean<>(BaseCode.FAIL);
 		}
-		return WebJsonBean.SUCCESS(entityList.stream().map(GoodsEntity::formDTO).collect(Collectors.toList()));
+		List<GoodsDTO> result = entityList.stream().map(GoodsEntity::formDTO).collect(Collectors.toList());
+		return WebJsonBean.SUCCESS(result);
 	}
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @create_time 2018/10/31 13:50
  */
 @RestController
-@RequestMapping("/api/group")
+@RequestMapping("/api/admin/group")
 @Api("集团管理")
 public class GroupController {
 

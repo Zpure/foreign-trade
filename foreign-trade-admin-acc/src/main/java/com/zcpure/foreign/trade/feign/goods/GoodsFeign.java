@@ -8,6 +8,8 @@ import com.zcpure.foreign.trade.utils.page.PageBean;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author ethan
  * @create_time 2018/10/22 13:43
@@ -25,5 +27,5 @@ public interface GoodsFeign {
 	WebJsonBean<GoodsDTO> getByCode(@PathVariable("code") String code);
 
 	@GetMapping("/api/goods/batch-code")
-	WebJsonBean<GoodsDTO> batchByCode(@RequestParam("codes") String codes);
+	WebJsonBean<List<GoodsDTO>> batchByCode(@RequestParam("codes") String codes);
 }

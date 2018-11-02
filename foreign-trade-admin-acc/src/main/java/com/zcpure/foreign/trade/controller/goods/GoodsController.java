@@ -11,12 +11,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author ethan
  * @create_time 2018/10/22 13:43
  */
 @RestController
-@RequestMapping("/api/goods")
+@RequestMapping("/api/admin/goods")
 @Api(value = "商品")
 public class GoodsController {
 	@Autowired
@@ -42,7 +44,7 @@ public class GoodsController {
 
 	@ApiOperation(value = "批量获取商品信息")
 	@RequestMapping(value = "/batch-code", method = RequestMethod.GET)
-	public WebJsonBean<GoodsDTO> batchByCode(@RequestParam("codes") String codes) {
+	public WebJsonBean<List<GoodsDTO>> batchByCode(@RequestParam("codes") String codes) {
 		return goodsFeign.batchByCode(codes);
 	}
 }
