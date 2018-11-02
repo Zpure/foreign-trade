@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Table(name = "ft_order_detail", uniqueConstraints = {@UniqueConstraint(columnNames={"order_code", "goods_code"})})
+@Table(name = "ft_order_detail", uniqueConstraints = {@UniqueConstraint(columnNames={"orderCode", "goodsCode"})})
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data

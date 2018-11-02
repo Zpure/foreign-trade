@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 /**
  * 管理用户
  */
-@Table(name = "ft_supplier_goods")
+@Table(name = "ft_supplier_goods", uniqueConstraints = {@UniqueConstraint(columnNames={"supplierCode", "goodsCode"})})
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data
