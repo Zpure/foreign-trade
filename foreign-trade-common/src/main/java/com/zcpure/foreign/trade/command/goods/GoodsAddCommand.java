@@ -37,5 +37,5 @@ public class GoodsAddCommand {
 	private String descInfo;
 
 	@ApiModelProperty("权重")
-	private String priority;
+	private Integer priority;
 }

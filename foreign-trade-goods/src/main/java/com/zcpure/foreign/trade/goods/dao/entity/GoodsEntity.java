@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.goods.dao.entity;
 import com.zcpure.foreign.trade.enums.GoodsStatusEnum;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.hibernate.annotations.Where;
 
@@ -40,7 +41,7 @@ public class GoodsEntity extends BaseEntity {
 	private String otherImg;
 	private String descInfo;
 	private Integer status;
-	private String priority;
+	private Integer priority;
 
 	public static GoodsEntity form(String goodsCode, GoodsAddCommand command,
 	                               ModelEntity modelEntity,

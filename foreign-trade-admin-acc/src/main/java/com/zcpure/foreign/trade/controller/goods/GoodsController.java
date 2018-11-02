@@ -35,13 +35,13 @@ public class GoodsController {
 	}
 
 	@ApiOperation(value = "获取商品信息")
-	@RequestMapping(value = "/{code}")
+	@RequestMapping(value = "/{code}", method = RequestMethod.GET)
 	public WebJsonBean<GoodsDTO> getByCode(@PathVariable("code") String code) {
 		return goodsFeign.getByCode(code);
 	}
 
 	@ApiOperation(value = "批量获取商品信息")
-	@RequestMapping(value = "/batch-code")
+	@RequestMapping(value = "/batch-code", method = RequestMethod.GET)
 	public WebJsonBean<GoodsDTO> batchByCode(@RequestParam("codes") String codes) {
 		return goodsFeign.batchByCode(codes);
 	}

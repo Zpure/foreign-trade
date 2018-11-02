@@ -51,7 +51,7 @@ public class GoodsDTO implements Serializable {
 	@ApiModelProperty(value = "商品状态")
 	private Integer status;
 	@ApiModelProperty(value = "商品排序优先级")
-	private String priority;
+	private Integer priority;
 	@ApiModelProperty(value = "商品创建时间")
 	private Date createTime;
 }
