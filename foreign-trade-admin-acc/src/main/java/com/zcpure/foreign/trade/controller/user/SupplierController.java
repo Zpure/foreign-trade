@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @create_time 2018/10/22 13:43
  */
 @RestController
-@RequestMapping("/api、admin/supplier")
+@RequestMapping("/api/admin/supplier")
 @Api(value = "客户")
 public class SupplierController {
 	@Autowired
