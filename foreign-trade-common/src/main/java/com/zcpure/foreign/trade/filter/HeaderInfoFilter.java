@@ -32,6 +32,7 @@ public class HeaderInfoFilter implements Filter {
 		if (StringUtils.isNotBlank(headerInfo)) {
 			try {
 				headerInfo = URLDecoder.decode(headerInfo, "UTF-8");
+				log.info("headerInfo:" + headerInfo);
 				RequestThroughInfo userInfo = JSON.parseObject(headerInfo, RequestThroughInfo.class);
 				//将UserInfo放入上下文中
 				RequestThroughInfoContext.setInfo(userInfo);

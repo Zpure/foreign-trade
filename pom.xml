@@ -15,6 +15,7 @@
         <module>foreign-trade-order</module>
         <module>foreign-trade-admin-acc</module>
         <module>foreign-trade-user</module>
+        <module>foreign-trade-task</module>
     </modules>
 
     <packaging>pom</packaging>
