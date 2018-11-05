@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = IllegalArgumentException.class)
 	@ResponseBody
 	public ResponseEntity<WebJsonBean> illegalArgumentExceptionHandler(IllegalArgumentException e) {
+		e.printStackTrace();
 		return ResponseEntity.ok().body(new WebJsonBean(BaseCode.FAIL.getIndex(),
 			e.getMessage()));
 	}

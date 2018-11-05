@@ -6,6 +6,7 @@ import com.zcpure.foreign.trade.command.user.LoginCommand;
 import com.zcpure.foreign.trade.command.user.UserAddCommand;
 import com.zcpure.foreign.trade.command.user.UserQueryCommand;
 import com.zcpure.foreign.trade.dto.user.UserDTO;
+import com.zcpure.foreign.trade.enums.UserLevelEnum;
 import com.zcpure.foreign.trade.user.dao.entity.UserEntity;
 import com.zcpure.foreign.trade.user.dao.mapper.UserMapper;
 import com.zcpure.foreign.trade.user.dao.repostitory.UserRepository;
@@ -17,7 +18,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author ethan
@@ -56,6 +59,16 @@ public class UserController {
 		command.setGroupCode(info.getGroupCode());
 		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
 			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
+		Set<Integer> levelSet = new HashSet<>();
+		if(info.getUserLevel() == UserLevelEnum.ADMIN.getCode()) {
+			levelSet.add(UserLevelEnum.GROUP_ADMIN.getCode());
+			levelSet.add(UserLevelEnum.GROUP_NORMAL.getCode());
+		} else if(info.getUserLevel() == UserLevelEnum.GROUP_ADMIN.getCode()) {
+			levelSet.add(UserLevelEnum.GROUP_NORMAL.getCode());
+		} else {
+			levelSet.add(-1);
+		}
+		command.setLevels(levelSet);
 		List<UserDTO> result = userMapper.queryPage(command);
 		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}

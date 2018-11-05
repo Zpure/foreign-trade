@@ -11,6 +11,7 @@ import com.zcpure.foreign.trade.user.dao.mapper.UserMapper;
 import com.zcpure.foreign.trade.user.dao.repostitory.GroupRepository;
 import com.zcpure.foreign.trade.user.dao.repostitory.UserRepository;
 import com.zcpure.foreign.trade.user.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,12 @@ public class UserServiceImpl implements UserService {
 			"该手机号已经存在");
 		Validate.isTrue(!userRepository.existsByGroupCodeAndName(info.getGroupCode(), command.getName()),
 			"该用户名已经存在");
-		GroupEntity groupEntity = groupRepository.findOne(command.getGroupCode());
+		GroupEntity groupEntity;
+		if(StringUtils.isNotBlank(command.getGroupCode())) {
+			groupEntity = groupRepository.findOne(command.getGroupCode());
+		} else {
+			groupEntity = groupRepository.findOne(info.getGroupCode());
+		}
 		UserEntity userEntity = UserEntity.form(info, command, groupEntity);
 		userRepository.save(userEntity);
 	}
