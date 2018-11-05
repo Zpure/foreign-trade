@@ -6,6 +6,7 @@ import com.zcpure.foreign.trade.dto.user.UserDTO;
 import com.zcpure.foreign.trade.utils.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,7 @@ public class HeaderInfoAccFilter implements Filter {
 			} else {
 				RequestThroughInfo userInfo = RequestThroughInfo.form(user);
 				userInfo.setIp(RequestUtil.getIPAddress((HttpServletRequest) servletRequest));
+				userInfo.setRequestId(MDC.get("requestId"));
 
 				RequestThroughInfoContext.setInfo(userInfo);
 				filterChain.doFilter(servletRequest, servletResponse);

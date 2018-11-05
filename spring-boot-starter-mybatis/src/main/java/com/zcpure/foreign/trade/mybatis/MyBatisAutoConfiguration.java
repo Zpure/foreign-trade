@@ -1,4 +1,4 @@
-package com.zcpure.mybatis;
+package com.zcpure.foreign.trade.mybatis;
 
 
 import com.github.pagehelper.PageHelper;

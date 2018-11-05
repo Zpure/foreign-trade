@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zcpure.mybatis.MyBatisAutoConfiguration
+com.zcpure.foreign.trade.mybatis.MyBatisAutoConfiguration

@@ -16,6 +16,7 @@ public class RequestThroughInfo {
 	private String groupCode;
 	private String groupName;
 	private String ip;
+	private String requestId;
 
 	public static RequestThroughInfo defaultInfo() {
 		RequestThroughInfo info = new RequestThroughInfo();
