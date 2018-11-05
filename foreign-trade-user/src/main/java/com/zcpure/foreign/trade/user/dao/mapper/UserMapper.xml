@@ -26,7 +26,7 @@
                 </foreach>
             </if>
             <if test="levels != null">
-                and id in
+                and user_level in
                 <foreach collection="levels" index="index" item="item" open="(" separator="," close=")">
                     #{item}
                 </foreach>
