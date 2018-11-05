@@ -15,6 +15,8 @@ public class UserQueryCommand implements Serializable {
 	private String name;
 	@ApiModelProperty(value = "用户手机号")
 	private String phone;
+	@ApiModelProperty(value = "用户邮箱")
+	private String email;
 	@ApiModelProperty(value = "用户ID集合")
 	private Set<Long> ids;
 	@ApiModelProperty(value = "用户等级集合")
