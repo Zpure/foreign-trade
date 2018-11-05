@@ -26,7 +26,6 @@ public class GroupController {
 	@ApiOperation(value = "添加集团信息")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> add(@RequestBody GroupAddCommand command) {
-		groupFeign.add(command);
-		return WebJsonBean.SUCCESS();
+		return groupFeign.add(command);
 	}
 }

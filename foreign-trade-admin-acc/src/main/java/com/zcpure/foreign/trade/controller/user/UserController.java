@@ -26,15 +26,13 @@ public class UserController {
 	@ApiOperation(value = "添加用户信息")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> queryByPage(@RequestBody UserAddCommand command) {
-		userFeign.add(command);
-		return WebJsonBean.SUCCESS();
+		return userFeign.add(command);
 	}
 
 	@ApiOperation(value = "删除用户信息")
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	public WebJsonBean<Void> remove(@RequestBody UserQueryCommand command) {
-		userFeign.remove(command);
-		return WebJsonBean.SUCCESS();
+		return userFeign.remove(command);
 	}
 
 	@ApiOperation(value = "获取用户信息")
