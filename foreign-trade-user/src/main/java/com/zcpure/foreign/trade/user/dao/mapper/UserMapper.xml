@@ -46,8 +46,7 @@
 
 
     <update id="delete" parameterType="com.zcpure.foreign.trade.command.user.UserQueryCommand">
-        update set delete_flag = 1
-        from ft_user
+        update ft_user set delete_flag = 1
         <include refid="BASE_QUERY_WHERE"/>
     </update>
 </mapper>
