@@ -1,80 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<!-- 读取spring.application.name中的属性来生成日志文件名 -->
-	<springProperty scope="context" name="logName" source="spring.application.name" defaultValue="localhost.log"/>
-	<property name="log.max.size" value="100MB" /> <!-- 日志文件大小 -->
-    <property name="LOG_PATH" value="${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}" />
-    <!-- 彩色日志 -->
-    <!-- 彩色日志依赖的渲染类 -->
-    <conversionRule conversionWord="clr"
-        converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex"
-        converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="wEx"
-        converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <!-- 彩色日志格式 -->
-    <property name="CONSOLE_LOG_PATTERN"
-        value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+    <property name="log.base" value="/data/logs" /> <!-- 日志根目录 -->
+    <property name="log.moduleName" value="${appName}" /> <!-- 模块名称， 影响日志配置名，日志文件名 -->
 
-    <!-- Console 输出设置 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <!--encoder 默认配置为PatternLayoutEncoder -->
-        <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>utf-8</charset>
+    <!--控制台输出 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{6}.%method<%L> %X{requestId} %X{class} %X{method} %msg%n]]></Pattern>
         </encoder>
-        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息 -->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
-        </filter>
     </appender>
 
-	<!-- 日志文件输出(按日期和大小分割) -->
-	<appender name="FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${LOG_PATH}/${logName}/${logName}.log</File>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${LOG_PATH}/${logName}/archive/${logName}_%d{yyyy-MM-dd}.%i.log.zip
-			</FileNamePattern>
-			<!-- 当天的日志大小 超过${log.max.size}时,压缩日志并保存 -->
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${log.max.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
-		<!-- 日志输出的文件的格式 -->
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
-		</layout>
-	</appender>
-    
-    	<!-- [错误日志APPENDER] -->
-	<appender name="FILE-ERROR"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${LOG_PATH}/${logName}/${logName}-error.log</File>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${LOG_PATH}/${logName}/archive/${logName}_error_%d{yyyy-MM-dd}.%i.log
-			</FileNamePattern>
-			<!-- 当天的日志大小 超过${log.max.size}时,压缩日志并保存 -->
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${log.max.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
-		<filter class="com.liqun.ecommerce.log.LevelFilter">
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
-		</filter>
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
-		</layout>
-	</appender>
+    <!-- 日志文件输出 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.base}/${log.moduleName}/${log.moduleName}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.base}/${log.moduleName}/archive/${log.moduleName}_%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+        </rollingPolicy>
+        <!-- 日志输出的文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{6}.%method<%L> %X{requestId} %X{class} %X{method} %msg%n]]></Pattern>
+        </encoder>
+    </appender>
 
-    <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
-    <root level="info">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="FILE-ERROR" />
+    <!-- 慢sql输出 -->
+    <appender name="slow-sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.base}/${log.moduleName}/${log.moduleName}-slow-sql.log
+        </File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.base}/${log.moduleName}/archive/${log.moduleName}_slow-sql_%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
+        </layout>
+    </appender>
+
+    <logger name="com.alibaba.druid" level="INFO" additivity="false">
+        <appender-ref ref="slow-sql" />
+    </logger>
+
+
+    <!-- com.morning.star中都输出debug -->
+    <logger name="com.zcpure.foreign.trade" level="DEBUG" additivity="false">
+        <appender-ref ref="file" />
+        <appender-ref ref="stdout" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="file" />
+        <appender-ref ref="stdout" />
     </root>
-    <logger name="com.liqun.ecommerce.order.mappers" level="DEBUG" />
+
 </configuration>
