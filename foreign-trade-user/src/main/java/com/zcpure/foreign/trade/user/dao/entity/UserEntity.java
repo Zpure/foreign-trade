@@ -1,5 +1,6 @@
 package com.zcpure.foreign.trade.user.dao.entity;
 
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.command.user.UserAddCommand;
 import com.zcpure.foreign.trade.dto.user.UserDTO;
@@ -45,14 +46,12 @@ public class UserEntity extends BaseEntity {
 
 	public static UserEntity form(RequestThroughInfo info, UserAddCommand command, GroupEntity groupEntity) {
 		UserEntity userEntity = new UserEntity();
+		BeanUtils.copyProperties(command, userEntity);
+		userEntity.setPassword(Const.DEFAULT_PASSWORD);
 		userEntity.setGroupCode(info.getGroupCode());
 		userEntity.setGroupName(info.getGroupName());
-		userEntity.setName(command.getName());
-		userEntity.setPhone(command.getPhone());
-		userEntity.setPassword(command.getPassword());
-		userEntity.setEmail(command.getEmail());
-		userEntity.setPassword(command.getPassword());
 		userEntity.setUserLevel(UserLevelEnum.GROUP_NORMAL.getCode());
+		userEntity.setSalt("1");
 		if(info.getUserLevel() == UserLevelEnum.ADMIN.getCode()) {
 			userEntity.setGroupCode(groupEntity.getCode());
 			userEntity.setGroupName(groupEntity.getName());

@@ -19,4 +19,6 @@ public class Const {
 	public static final int PAGE_DEFAULT_SIZE = 20;
 
 	public static final int PAGE_DEFAULT_NO= 1;
+
+	public static final String DEFAULT_PASSWORD = "123456";
 }
