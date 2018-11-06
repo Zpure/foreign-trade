@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/order")
-@CrossOrigin
 @Api(value = "订单")
 public class OrderController {
 

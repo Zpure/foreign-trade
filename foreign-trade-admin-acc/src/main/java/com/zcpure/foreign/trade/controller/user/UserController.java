@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/admin/user")
-@CrossOrigin
 @Api(value = "管理员用户")
 public class UserController {
 	@Autowired

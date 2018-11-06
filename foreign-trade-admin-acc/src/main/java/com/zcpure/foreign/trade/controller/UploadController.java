@@ -22,7 +22,6 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/admin/upload")
-@CrossOrigin
 @Api(value = "上传")
 public class UploadController {
 

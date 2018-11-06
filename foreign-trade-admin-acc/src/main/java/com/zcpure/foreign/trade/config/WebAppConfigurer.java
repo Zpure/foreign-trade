@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +29,13 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 		MappingJackson2HttpMessageConverter mappingJsonpHttpMessageConverter = new MappingJackson2HttpMessageConverter(
 				mapper);
 		return mappingJsonpHttpMessageConverter;
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/admin/*").allowedOrigins("*")
+			.allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
+			.allowCredentials(false).maxAge(3600);
 	}
 
 }

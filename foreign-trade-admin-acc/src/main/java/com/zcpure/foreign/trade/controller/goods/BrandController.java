@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/admin/brand")
-@CrossOrigin
 @Api(value = "品牌")
 public class BrandController {
 	@Autowired

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin
 @Api(value = "登录")
 public class LoginController {
 	@Autowired

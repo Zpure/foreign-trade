@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/admin/order")
-@CrossOrigin
 @Api(value = "订单")
 public class OrderController {
 	@Autowired
