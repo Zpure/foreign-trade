@@ -31,11 +31,11 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 		return mappingJsonpHttpMessageConverter;
 	}
 
-//	@Override
-//	public void addCorsMappings(CorsRegistry registry) {
-//		registry.addMapping("/api/admin/*").allowedOrigins("*")
-//			.allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
-//			.allowCredentials(false).maxAge(3600);
-//	}
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/admin/*").allowedOrigins("http://localhost:8080")
+			.allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
+			.allowCredentials(false).maxAge(3600);
+	}
 
 }
