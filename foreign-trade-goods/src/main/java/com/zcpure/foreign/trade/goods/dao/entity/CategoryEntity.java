@@ -22,8 +22,9 @@ public class CategoryEntity extends BaseEntity {
 	private Integer isDir;
 	private Long parentId;
 	private String name;
+	private Integer categoryLevel;
 
-	public static CategoryEntity fromAdd(CategoryAddCommand command) {
+	public static CategoryEntity fromAdd(CategoryAddCommand command, Integer categoryLevel) {
 		if (command == null) {
 			return null;
 		}
@@ -31,6 +32,7 @@ public class CategoryEntity extends BaseEntity {
 		entity.setIsDir(command.getIsDir());
 		entity.setName(command.getName());
 		entity.setParentId(command.getParentId());
+		entity.setCategoryLevel(categoryLevel);
 		return entity;
 	}
 
@@ -52,6 +54,7 @@ public class CategoryEntity extends BaseEntity {
 		dto.setIsDir(entity.getIsDir());
 		dto.setName(entity.getName());
 		dto.setParentId(entity.getParentId());
+		dto.setCategoryLevel(entity.getCategoryLevel());
 		return dto;
 	}
 

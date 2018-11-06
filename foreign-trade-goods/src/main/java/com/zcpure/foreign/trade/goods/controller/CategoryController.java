@@ -33,6 +33,14 @@ public class CategoryController {
 		return WebJsonBean.SUCCESS();
 	}
 
+	@ApiOperation(value = "获取分类")
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public WebJsonBean<List<CategoryDTO>> getCategory() {
+		List<CategoryEntity> entityList = categoryRepository.findAll();
+		List<CategoryDTO> result = CategoryDTO.build(entityList.stream().map(CategoryEntity::formDTO).collect(Collectors.toList()), 0L  );
+		return WebJsonBean.SUCCESS(result);
+	}
+
 	@ApiOperation(value = "获取子分类")
 	@RequestMapping(value = "/child/{id}", method = RequestMethod.GET)
 	public WebJsonBean<List<CategoryDTO>> getChild(@PathVariable Long id) {

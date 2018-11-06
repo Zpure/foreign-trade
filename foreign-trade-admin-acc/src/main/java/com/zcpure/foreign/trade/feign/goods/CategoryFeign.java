@@ -15,6 +15,9 @@ import java.util.List;
 @FeignClient(name = "foreign-trade-goods")
 public interface CategoryFeign {
 
+	@GetMapping("/api/category")
+	WebJsonBean<List<CategoryDTO>> get();
+
 	@PostMapping("/api/category/add")
 	WebJsonBean<Void> add(@RequestBody CategoryAddCommand command);
 

@@ -23,6 +23,9 @@ public class CategoryLinkDTO implements Serializable {
 	@ApiModelProperty(value = "分类名")
 	private String name;
 
+	@ApiModelProperty(value = "分类名级别")
+	private Integer categoryLevel;
+
 	@ApiModelProperty(value = "子分类")
 	private CategoryLinkDTO child;
 

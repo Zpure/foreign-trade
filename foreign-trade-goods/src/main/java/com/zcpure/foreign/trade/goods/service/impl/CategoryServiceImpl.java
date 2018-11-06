@@ -22,6 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void add(CategoryAddCommand command) {
+		Integer categoryLevel = 1;
 		if (command.getParentId() > 0) {
 			CategoryEntity parentCategory = categoryRepository.findOne(command.getParentId());
 			Validate.notNull(parentCategory,
@@ -30,9 +31,10 @@ public class CategoryServiceImpl implements CategoryService {
 				"父分类不是目录：" + parentCategory.getName());
 			Validate.isTrue(!categoryRepository.existsByParentIdAndName(command.getParentId(), command.getName()),
 				"改分类已存在");
+			categoryLevel = parentCategory.getCategoryLevel() + 1;
 		}
 
-		CategoryEntity categoryEntity = CategoryEntity.fromAdd(command);
+		CategoryEntity categoryEntity = CategoryEntity.fromAdd(command, categoryLevel);
 		categoryRepository.save(categoryEntity);
 
 	}

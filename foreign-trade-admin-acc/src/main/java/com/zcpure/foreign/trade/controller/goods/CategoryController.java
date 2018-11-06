@@ -21,6 +21,12 @@ public class CategoryController {
 	@Autowired
 	private CategoryFeign categoryFeign;
 
+	@ApiOperation(value = "获取分类")
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public WebJsonBean<List<CategoryDTO>> get() {
+		return categoryFeign.get();
+	}
+
 	@ApiOperation(value = "添加分类信息")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public WebJsonBean<Void> add(@RequestBody CategoryAddCommand command) {
