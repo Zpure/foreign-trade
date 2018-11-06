@@ -30,6 +30,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 				mapper);
 		return mappingJsonpHttpMessageConverter;
 	}
+/*
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -37,5 +38,6 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 			.allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
 			.allowCredentials(true).maxAge(3600);
 	}
+*/
 
 }
