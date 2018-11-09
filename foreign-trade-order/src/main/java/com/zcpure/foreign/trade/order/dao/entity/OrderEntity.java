@@ -30,7 +30,8 @@ public class OrderEntity extends BaseEntity {
 	private Integer status;
 	private String remark;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "orderCode", referencedColumnName = "code", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+//	@JoinColumn(name = "orderCode", referencedColumnName = "code", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "orderCode", referencedColumnName = "code")
 	private List<OrderDetailEntity> detailEntityList;
 
 	public static OrderDTO form(OrderEntity entity) {
