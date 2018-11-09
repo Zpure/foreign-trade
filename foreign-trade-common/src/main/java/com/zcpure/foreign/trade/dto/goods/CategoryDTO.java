@@ -17,7 +17,7 @@ public class CategoryDTO implements Serializable {
 	private Long parentId;
 	private String name;
 	private Integer categoryLevel;
-	private List<CategoryDTO> children;
+	private List<CategoryDTO> childList;
 
 	public static List<CategoryDTO> build(List<CategoryDTO> list, Long categoryId) {
 		List<CategoryDTO> parentList = new ArrayList<>();
@@ -32,10 +32,10 @@ public class CategoryDTO implements Serializable {
 
 	private static CategoryDTO findChildren(CategoryDTO categoryNode, Map<Long, List<CategoryDTO>> categoryMap) {
 		for (CategoryDTO item : categoryMap.getOrDefault(categoryNode.getId(), new ArrayList<>())) {
-			if (categoryNode.getChildren() == null) {
-				categoryNode.setChildren(new ArrayList<>());
+			if (categoryNode.getChildList() == null) {
+				categoryNode.setChildList(new ArrayList<>());
 			}
-			categoryNode.getChildren().add(findChildren(item, categoryMap));
+			categoryNode.getChildList().add(findChildren(item, categoryMap));
 		}
 		return categoryNode;
 	}
