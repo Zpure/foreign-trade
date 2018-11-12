@@ -89,10 +89,9 @@ public class SupplierController {
 	@ApiOperation(value = "供应商详情")
 	@RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
 	public WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable("code") String code) {
-		log.info("code:" + code);
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(code);
-		if(supplierEntity == null || supplierEntity.getGroupCode() != info.getGroupCode()) {
+		if(supplierEntity == null || !supplierEntity.getGroupCode().equals(info.getGroupCode())) {
 			return new WebJsonBean<>(BaseCode.FAIL);
 		}
 		List<SupplierGoodsEntity> detailList = supplierEntity.getDetailList();
