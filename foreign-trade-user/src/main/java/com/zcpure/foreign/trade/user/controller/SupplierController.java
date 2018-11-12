@@ -16,6 +16,8 @@ import com.zcpure.foreign.trade.user.utils.page.PageBeanAssembler;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/supplier")
 @Api(value = "客户")
 public class SupplierController {
+	private static final Logger log = LoggerFactory.getLogger(SupplierController.class);
+
 	@Autowired
 	private SupplierMapper supplierMapper;
 	@Autowired
@@ -85,6 +89,7 @@ public class SupplierController {
 	@ApiOperation(value = "供应商详情")
 	@RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
 	public WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable("code") String code) {
+		log.info("code:" + code);
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(code);
 		if(supplierEntity == null || supplierEntity.getGroupCode() != info.getGroupCode()) {
