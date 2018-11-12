@@ -3,8 +3,10 @@ package com.zcpure.foreign.trade.controller.user;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.user.SupplierAddCommand;
 import com.zcpure.foreign.trade.command.user.SupplierGoodsAddCommand;
+import com.zcpure.foreign.trade.command.user.SupplierGoodsQueryCommand;
 import com.zcpure.foreign.trade.command.user.SupplierQueryCommand;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
+import com.zcpure.foreign.trade.dto.user.SupplierGoodsDTO;
 import com.zcpure.foreign.trade.feign.user.SupplierFeign;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
@@ -69,6 +71,12 @@ public class SupplierController {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<SupplierDTO>> queryByPage(SupplierQueryCommand command) {
 		return supplierFeign.queryByPage(command);
+	}
+
+	@ApiOperation(value = "获取供应商详情列表信息")
+	@RequestMapping(value = "/detail/page", method = RequestMethod.GET)
+	public WebJsonBean<PageBean<SupplierGoodsDTO>> queryByPage(SupplierGoodsQueryCommand command) {
+		return supplierFeign.queryDetailByPage(command);
 	}
 
 }

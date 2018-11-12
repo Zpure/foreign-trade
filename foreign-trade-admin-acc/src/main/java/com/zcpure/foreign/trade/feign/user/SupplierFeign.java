@@ -3,8 +3,10 @@ package com.zcpure.foreign.trade.feign.user;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.user.SupplierAddCommand;
 import com.zcpure.foreign.trade.command.user.SupplierGoodsAddCommand;
+import com.zcpure.foreign.trade.command.user.SupplierGoodsQueryCommand;
 import com.zcpure.foreign.trade.command.user.SupplierQueryCommand;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
+import com.zcpure.foreign.trade.dto.user.SupplierGoodsDTO;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -39,5 +41,8 @@ public interface SupplierFeign {
 
 	@PostMapping(value = "/api/supplier/page")
 	WebJsonBean<PageBean<SupplierDTO>> queryByPage(@RequestBody SupplierQueryCommand command);
+
+	@PostMapping(value = "/api/supplier/detail/page")
+	WebJsonBean<PageBean<SupplierGoodsDTO>> queryDetailByPage(@RequestBody SupplierGoodsQueryCommand command);
 
 }
