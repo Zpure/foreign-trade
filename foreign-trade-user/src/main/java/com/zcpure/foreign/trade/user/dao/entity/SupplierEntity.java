@@ -9,10 +9,8 @@ import lombok.Data;
 import org.hibernate.annotations.Where;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * 管理用户
@@ -43,6 +41,9 @@ public class SupplierEntity extends BaseEntity {
 	@Column(nullable = false)
 	private String groupName;
 	private Integer status;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "supplierCode", referencedColumnName = "code")
+	private List<SupplierGoodsEntity> detailList;
 
 	public static SupplierDTO formDTO(SupplierEntity entity) {
 		if (entity == null) {

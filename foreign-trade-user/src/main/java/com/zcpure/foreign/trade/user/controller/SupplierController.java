@@ -90,7 +90,7 @@ public class SupplierController {
 		if(supplierEntity == null || supplierEntity.getGroupCode() != info.getGroupCode()) {
 			return new WebJsonBean<>(BaseCode.FAIL);
 		}
-		List<SupplierGoodsEntity> detailList = supplierGoodsRepository.findBySupplierCode(supplierEntity.getCode());
+		List<SupplierGoodsEntity> detailList = supplierEntity.getDetailList();
 		SupplierDTO dto = SupplierEntity.formDTO(supplierEntity);
 		if(detailList != null) {
 			dto.setDetailList(detailList.stream().map(SupplierGoodsEntity::formDTO).collect(Collectors.toList()));
