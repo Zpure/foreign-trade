@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Table(name = "ft_order_detail_dis", uniqueConstraints = {@UniqueConstraint(columnNames={"orderCode", "goodsCode", "supplierCode"})})
 @Where(clause = "delete_flag <> 1")
@@ -22,6 +23,9 @@ public class OrderDisDetailEntity extends BaseEntity {
 	private String goodsCode;
 	private String supplierCode;
 	private String supplierName;
+	private BigDecimal costPrice;
+	private BigDecimal salePrice;
+	private BigDecimal price;
 	private Integer totalNum;
 	private Integer initDisNum;
 	private Integer disNum;
@@ -36,6 +40,9 @@ public class OrderDisDetailEntity extends BaseEntity {
 		disDetailEntity.setGroupCode(detailEntity.getGroupCode());
 		disDetailEntity.setGroupName(detailEntity.getGoodsName());
 		disDetailEntity.setGoodsCode(detailEntity.getGoodsCode());
+		disDetailEntity.setCostPrice(detailEntity.getCostPrice());
+		disDetailEntity.setSalePrice(detailEntity.getSalePrice());
+		disDetailEntity.setPrice(detailEntity.getPrice());
 		disDetailEntity.setSupplierCode(supplier.getCode());
 		disDetailEntity.setSupplierName(supplier.getName());
 		disDetailEntity.setTotalNum(detailEntity.getNum());

@@ -22,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author ethan
  * @create_time 2018/10/31 14:55
@@ -56,20 +60,31 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public void addGoods(SupplierGoodsAddCommand command) {
-		SupplierGoodsEntity existSupplierGoodsEntity = supplierGoodsRepository.findBySupplierCodeAndGoodsCode(command.getSupplierCode(), command.getGoodsCode());
-		Validate.isTrue(existSupplierGoodsEntity == null,
-			"该供应信息已存在");
 
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(command.getSupplierCode());
 		Validate.isTrue(supplierEntity != null && supplierEntity.getGroupCode().equals(info.getGroupCode()),
 			"供应商不存在：" + command.getSupplierCode());
-		WebJsonBean<GoodsDTO> goodsInfo = goodsFeign.getByCode(command.getGoodsCode());
-		Validate.isTrue(goodsInfo.getCode() == BaseCode.SUCCESS.getIndex(),
-			"获取商品信息错误");
 
-		SupplierGoodsEntity entity = SupplierGoodsEntity.form(supplierEntity, goodsInfo.getData(), command.getPrice());
-		supplierGoodsRepository.save(entity);
+		List<SupplierGoodsEntity>supplierGoodsEntityList = supplierEntity.getDetailList();
+		command.getDetailList().forEach(detail -> {
+			Optional<SupplierGoodsEntity> opSupplierGoods = supplierGoodsEntityList.stream()
+				.filter(item -> item.getGoodsCode().equals(detail.getGoodsCode()))
+				.findFirst();
+			if(opSupplierGoods.isPresent()) {
+				opSupplierGoods.get().setPrice(detail.getPrice());
+			} else {
+				WebJsonBean<GoodsDTO> goodsInfo = goodsFeign.getByCode(detail.getGoodsCode());
+				Validate.isTrue(goodsInfo.getCode() == BaseCode.SUCCESS.getIndex(),
+					"获取商品信息错误");
+
+				SupplierGoodsEntity entity = SupplierGoodsEntity.form(supplierEntity, goodsInfo.getData(), detail.getPrice());
+				supplierGoodsEntityList.add(entity);
+			}
+
+		});
+
+		supplierRepository.save(supplierEntity);
 	}
 
 	@Override

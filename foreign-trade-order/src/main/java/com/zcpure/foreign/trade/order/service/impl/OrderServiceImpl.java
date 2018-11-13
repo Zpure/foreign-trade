@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
 		orderEntity.setStatus(OrderStatusEnum.INIT.getCode());
 		orderEntity.setTotalNum(orderDetailList.stream().mapToInt(OrderDetailEntity::getNum).sum());
 		orderEntity.setTotalAmount(new BigDecimal(orderDetailList.stream()
-			.mapToDouble(item -> item.getSalePrice().multiply(new BigDecimal(item.getNum())).doubleValue()).sum()));
+			.mapToDouble(item -> item.getPrice().multiply(new BigDecimal(item.getNum())).doubleValue()).sum()));
 		orderEntity.setDetailEntityList(orderDetailList);
 		orderEntity.setCustomerCode(customer.getCode());
 		orderEntity.setCustomerName(customer.getName());
@@ -139,6 +139,8 @@ public class OrderServiceImpl implements OrderService {
 			List<OrderDetailEntity> newAddEntity = getOrderDetail(newAdd);
 			newAddEntity.forEach(item -> item.setOrderCode(command.getCode()));
 			detailEntityList.addAll(newAddEntity);
+			orderEntity.setTotalAmount(new BigDecimal(detailEntityList.stream()
+				.mapToDouble(item -> item.getPrice().multiply(new BigDecimal(item.getNum())).doubleValue()).sum()));
 			orderRepository.save(orderEntity);
 		}
 	}
@@ -263,7 +265,7 @@ public class OrderServiceImpl implements OrderService {
 			.collect(Collectors.toMap(GoodsDTO::getCode, item -> item));
 		return detailList.stream().map(item -> {
 			GoodsDTO goods = goodsMap.getOrDefault(item.getGoodsCode(), null);
-			return OrderDetailEntity.form(goods, item.getBuyNum());
+			return OrderDetailEntity.form(goods, item);
 		}).filter(item -> item != null).collect(Collectors.toList());
 	}
 }

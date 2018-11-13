@@ -1,5 +1,7 @@
 package com.zcpure.foreign.trade.order.dao.entity;
 
+import com.zcpure.foreign.trade.command.order.OrderAddCommand;
+import com.zcpure.foreign.trade.command.order.OrderAddDetailCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import lombok.Data;
@@ -32,6 +34,7 @@ public class OrderDetailEntity extends BaseEntity {
 	private String categoryLinkName;
 	private BigDecimal costPrice;
 	private BigDecimal salePrice;
+	private BigDecimal price;
 	private String mainImg;
 	private String otherImg;
 	private String descInfo;
@@ -44,7 +47,7 @@ public class OrderDetailEntity extends BaseEntity {
 	@JoinColumn(name = "detailId", referencedColumnName = "id")
 	private List<OrderDisDetailEntity> disDetailEntityList;
 
-	public static OrderDetailEntity form(GoodsDTO goodsDTO, Integer num) {
+	public static OrderDetailEntity form(GoodsDTO goodsDTO, OrderAddDetailCommand command) {
 		if (goodsDTO == null) {
 			return null;
 		}
@@ -64,7 +67,12 @@ public class OrderDetailEntity extends BaseEntity {
 		entity.setMainImg(goodsDTO.getMainImg());
 		entity.setOtherImg(goodsDTO.getOtherImg());
 		entity.setDescInfo(goodsDTO.getDescInfo());
-		entity.setNum(num);
+		entity.setNum(command.getBuyNum());
+		if(command.getPrice() == null || command.getPrice().compareTo(BigDecimal.ZERO)<= 0) {
+			entity.setPrice(goodsDTO.getSalePrice());
+		} else {
+			entity.setPrice(command.getPrice());
+		}
 		return entity;
 	}
 

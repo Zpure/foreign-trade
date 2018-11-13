@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 供应商
@@ -15,8 +15,6 @@ public class SupplierGoodsAddCommand implements Serializable {
 
 	@NotNull(message = "供应商编码不能为空")
 	private String supplierCode;
-	@NotNull(message = "商品编码不能为空")
-	private String goodsCode;
-	@NotNull(message = "供应商价格不能为空")
-	private BigDecimal price;
+	@NotNull(message = "供应商商品详情")
+	private List<SupplierGoodsDetailAddCommand> detailList;
 }

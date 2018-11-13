@@ -40,6 +40,8 @@ public class OrderDetailDTO implements Serializable {
 	private BigDecimal costPrice;
 	@ApiModelProperty(value = "商品售价")
 	private BigDecimal salePrice;
+	@ApiModelProperty(value = "商品下单价")
+	private BigDecimal price;
 	@ApiModelProperty(value = "商品主图")
 	private String mainImg;
 	@ApiModelProperty(value = "商品其他图片")

@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.goods.dao.entity;
 import com.zcpure.foreign.trade.command.goods.ModelAddCommand;
 import com.zcpure.foreign.trade.command.goods.ModelUpdateCommand;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -46,7 +47,11 @@ public class ModelEntity extends BaseEntity {
 
 	public void fillUpdateInfo(ModelUpdateCommand command) {
 		this.setAlias(command.getAlias());
-		this.setMainImg(command.getMainImg());
-		this.setOtherImg(command.getOtherImg());
+		if (StringUtils.isNotBlank(command.getMainImg())) {
+			this.setMainImg(command.getMainImg());
+		}
+		if (StringUtils.isNotBlank(command.getOtherImg())) {
+			this.setOtherImg(command.getOtherImg());
+		}
 	}
 }

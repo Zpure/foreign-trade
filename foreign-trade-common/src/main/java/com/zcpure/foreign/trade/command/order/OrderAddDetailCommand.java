@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 public class OrderAddDetailCommand implements Serializable {
@@ -14,4 +15,7 @@ public class OrderAddDetailCommand implements Serializable {
 
 	@ApiModelProperty(value = "商品购买数量")
 	private Integer buyNum;
+
+	@ApiModelProperty(value = "商品购买数量")
+	private BigDecimal price;
 }
