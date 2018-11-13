@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/admin/supplier")
-@Api(value = "客户")
+@Api(value = "供应商")
 public class SupplierController {
 	@Autowired
 	private SupplierFeign supplierFeign;
@@ -37,7 +37,7 @@ public class SupplierController {
 		return supplierFeign.addGoods(command);
 	}
 
-	@ApiOperation(value = "供应商信息")
+	@ApiOperation(value = "供应商基本信息")
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET)
 	public WebJsonBean<SupplierDTO> getByCode(@PathVariable("code") String code) {
 		return supplierFeign.getByCode(code);
@@ -49,7 +49,7 @@ public class SupplierController {
 		return supplierFeign.batchByCodes(codes);
 	}
 
-	@ApiOperation(value = "供应商详情")
+	@ApiOperation(value = "供应商详情信息")
 	@RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
 	public WebJsonBean<SupplierDTO> getDetailByCode(@PathVariable("code") String code) {
 		return supplierFeign.getDetailByCode(code);
