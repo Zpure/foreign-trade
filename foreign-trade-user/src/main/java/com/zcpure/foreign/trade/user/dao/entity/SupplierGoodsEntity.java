@@ -64,8 +64,6 @@ public class SupplierGoodsEntity extends BaseEntity {
 		entity.setGoodsName(goodsDTO.getName());
 		entity.setSupplierCode(supplierEntity.getCode());
 		entity.setSupplierName(supplierEntity.getName());
-		entity.setGoodsCode(supplierEntity.getGroupCode());
-		entity.setGoodsName(supplierEntity.getGroupName());
 		entity.setPrice(price);
 		entity.setStatus(SupplierGoodsStatusEnum.NORMAL.getCode());
 		return entity;
