@@ -23,6 +23,7 @@ public class OrderDetailEntity extends BaseEntity {
 	private Long id;
 	private String orderCode;
 	private String groupCode;
+	private String groupName;
 	private String goodsCode;
 	private String goodsName;
 	private Long brandId;
@@ -53,6 +54,7 @@ public class OrderDetailEntity extends BaseEntity {
 		}
 		OrderDetailEntity entity = new OrderDetailEntity();
 		entity.setGroupCode(goodsDTO.getGroupCode());
+		entity.setGroupName(goodsDTO.getGroupName());
 		entity.setGoodsCode(goodsDTO.getCode());
 		entity.setGoodsName(goodsDTO.getName());
 		entity.setBrandId(goodsDTO.getBrandId());
