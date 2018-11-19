@@ -31,13 +31,13 @@ public class OrderController {
 	@ApiOperation(value = "查询订单")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<OrderDTO>> page(OrderQueryCommand command) {
-		return WebJsonBean.SUCCESS(orderFeign.page(command));
+		return orderFeign.page(command);
 	}
 
 	@ApiOperation(value = "查询订单")
 	@RequestMapping(value = "/detail/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<OrderDetailDTO>> pageDetail(OrderDetailQueryCommand command) {
-		return WebJsonBean.SUCCESS(orderFeign.pageDetail(command));
+		return orderFeign.pageDetail(command);
 	}
 
 	@ApiOperation(value = "订单更新")
@@ -49,7 +49,7 @@ public class OrderController {
 	@ApiOperation(value = "订单详情")
 	@RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
 	public WebJsonBean<OrderDTO> page(@PathVariable String code) {
-		return WebJsonBean.SUCCESS(orderFeign.detail(code));
+		return orderFeign.detail(code);
 	}
 
 	@ApiOperation(value = "确认订单")
