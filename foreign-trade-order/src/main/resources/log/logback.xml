@@ -39,8 +39,7 @@
 	</logger>
 
 
-	<!-- com.morning.star中都输出debug -->
-	<logger name="com.zcpure.foreign.trade" level="DEBUG" additivity="false">
+	<logger name="com.zcpure" level="DEBUG" additivity="false">
 		<appender-ref ref="file" />
 		<appender-ref ref="stdout" />
 	</logger>

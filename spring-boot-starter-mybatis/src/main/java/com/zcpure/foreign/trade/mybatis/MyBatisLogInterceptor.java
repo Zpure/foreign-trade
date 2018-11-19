@@ -27,13 +27,13 @@ import java.util.Properties;
 	@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
 		RowBounds.class, ResultHandler.class})})
 public class MyBatisLogInterceptor implements Interceptor {
-	protected Logger logger = LoggerFactory.getLogger("com.zcpure.foreign.trade.SL");
+	protected Logger logger = LoggerFactory.getLogger("com.zcpure.SL");
 
 	private Method requestQueryMethod;
 
 	public MyBatisLogInterceptor() {
 		try {
-			Class logContextClass = Class.forName("com.zcpure.foreign.trade.RequestThroughInfoContext", false, this.getClass().getClassLoader());
+			Class logContextClass = Class.forName("com.zcpure.foreign.trade.log.LogContext", false, this.getClass().getClassLoader());
 			requestQueryMethod = logContextClass.getMethod("getRequestId");
 			requestQueryMethod.invoke(null);
 		} catch (ClassNotFoundException e) {

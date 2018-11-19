@@ -16,6 +16,7 @@
         <module>foreign-trade-admin-acc</module>
         <module>foreign-trade-user</module>
         <module>foreign-trade-task</module>
+        <module>spring-boot-starter-log</module>
     </modules>
 
     <packaging>pom</packaging>
