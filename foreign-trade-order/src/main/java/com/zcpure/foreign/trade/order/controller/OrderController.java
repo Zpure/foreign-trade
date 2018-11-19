@@ -5,6 +5,7 @@ import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.order.service.OrderService;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
@@ -37,6 +38,14 @@ public class OrderController {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		command.setGroupCode(info.getGroupCode());
 		return WebJsonBean.SUCCESS(orderService.queryPage(command));
+	}
+
+	@ApiOperation(value = "查询订单详情")
+	@RequestMapping(value = "/detail/page", method = RequestMethod.POST)
+	public WebJsonBean<PageBean<OrderDetailDTO>> page(@RequestBody OrderDetailQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
+		return WebJsonBean.SUCCESS(orderService.queryDetailPage(command));
 	}
 
 	@ApiOperation(value = "订单更新")

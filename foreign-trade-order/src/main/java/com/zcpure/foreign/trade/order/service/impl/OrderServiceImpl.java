@@ -5,12 +5,14 @@ import com.zcpure.foreign.trade.*;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.dto.user.CustomerDTO;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import com.zcpure.foreign.trade.enums.OrderStatusEnum;
 import com.zcpure.foreign.trade.order.dao.entity.OrderDetailEntity;
 import com.zcpure.foreign.trade.order.dao.entity.OrderDisDetailEntity;
 import com.zcpure.foreign.trade.order.dao.entity.OrderEntity;
+import com.zcpure.foreign.trade.order.dao.mapper.OrderDetailMapper;
 import com.zcpure.foreign.trade.order.dao.mapper.OrderMapper;
 import com.zcpure.foreign.trade.order.dao.repository.OrderDetailRepository;
 import com.zcpure.foreign.trade.order.dao.repository.OrderDisDetailRepository;
@@ -46,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderRepository orderRepository;
 	@Autowired
 	private OrderMapper orderMapper;
+	@Autowired
+	private OrderDetailMapper orderDetailMapper;
 
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
@@ -104,6 +108,14 @@ public class OrderServiceImpl implements OrderService {
 		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
 			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
 		List<OrderDTO> result = orderMapper.queryPage(command);
+		return new PageBeanAssembler().toBeanByList(result);
+	}
+
+	@Override
+	public PageBean<OrderDetailDTO> queryDetailPage(OrderDetailQueryCommand command) {
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
+		List<OrderDetailDTO> result = orderDetailMapper.queryPage(command);
 		return new PageBeanAssembler().toBeanByList(result);
 	}
 

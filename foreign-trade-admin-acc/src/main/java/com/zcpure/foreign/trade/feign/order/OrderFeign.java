@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.feign.order;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,9 @@ public interface OrderFeign {
 
 	@PostMapping(value = "/api/order/page")
 	WebJsonBean<PageBean<OrderDTO>> page(@RequestBody OrderQueryCommand command);
+
+	@PostMapping(value = "/api/order/detail/page")
+	WebJsonBean<PageBean<OrderDetailDTO>> pageDetail(@RequestBody OrderDetailQueryCommand command);
 
 	@PostMapping(value = "/api/order/update")
 	WebJsonBean<Void> update(@RequestBody OrderUpdateCommand command);

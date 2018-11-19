@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.controller.order;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.feign.order.OrderFeign;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
@@ -31,6 +32,12 @@ public class OrderController {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<OrderDTO>> page(OrderQueryCommand command) {
 		return WebJsonBean.SUCCESS(orderFeign.page(command));
+	}
+
+	@ApiOperation(value = "查询订单")
+	@RequestMapping(value = "/detail/page", method = RequestMethod.GET)
+	public WebJsonBean<PageBean<OrderDetailDTO>> pageDetail(OrderDetailQueryCommand command) {
+		return WebJsonBean.SUCCESS(orderFeign.pageDetail(command));
 	}
 
 	@ApiOperation(value = "订单更新")
