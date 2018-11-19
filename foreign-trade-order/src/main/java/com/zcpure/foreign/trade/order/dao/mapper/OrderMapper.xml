@@ -3,8 +3,8 @@
 <mapper namespace="com.zcpure.foreign.trade.order.dao.mapper.OrderMapper">
     <sql id="BASE_COLUMN">
 		create_time, delete_flag,modify_time,
-		code,group_code,group_name,name,customer_code,customer_name
-		total_amount,total_num,status,remark
+		code,group_code,group_name,name,customer_code,customer_name,
+		total_amount,total_num,total_init_dis_num,total_dis_num,status,remark
 	</sql>
 
     <select id="queryPage" parameterType="com.zcpure.foreign.trade.command.order.OrderQueryCommand"
