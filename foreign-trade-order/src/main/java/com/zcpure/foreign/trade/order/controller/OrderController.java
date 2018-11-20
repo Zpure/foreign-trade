@@ -6,12 +6,15 @@ import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.order.service.OrderService;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author ethan
@@ -73,6 +76,12 @@ public class OrderController {
 	public WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command) {
 		orderService.distribution(command);
 		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "分配详情")
+	@RequestMapping(value = "/distribution/detail", method = RequestMethod.POST)
+	public WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(@RequestBody OrderDistributionDetailQueryCommand command) {
+		return WebJsonBean.SUCCESS(orderService.distributionDetail(command));
 	}
 
 	@ApiOperation(value = "订单配货")

@@ -6,6 +6,7 @@ import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.dto.user.CustomerDTO;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import com.zcpure.foreign.trade.enums.OrderStatusEnum;
@@ -195,40 +196,14 @@ public class OrderServiceImpl implements OrderService {
 						.findFirst();
 					if (findDetailEntityOp.isPresent()) {
 						OrderDetailEntity findDetailEntity = findDetailEntityOp.get();
-						List<OrderDisDetailEntity> disDetailEntityList = findDetailEntity.getDisDetailEntityList();
-						if (disDetailEntityList == null) {
-							findDetailEntity.setDisDetailEntityList(
-								dataList.stream()
-									.map(item -> {
-										SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
-										Validate.notNull(supplier, "供应商不存在：" + item.getSupplierCode());
-										return OrderDisDetailEntity.form(findDetailEntity, supplier, item.getNum());
-									}).collect(Collectors.toList())
-							);
-						} else {
-							List<OrderDistributionDetailCommand> newAdd = new ArrayList<>();
-							dataList.forEach(item -> {
-								Optional<OrderDisDetailEntity> findDisDetailEntityOp = disDetailEntityList
-									.stream()
-									.filter(i -> i.getSupplierCode().equals(item.getSupplierCode()))
-									.findFirst();
-								if (findDisDetailEntityOp.isPresent()) {
-									findDisDetailEntityOp.get().setInitDisNum(item.getNum());
-								} else {
-									newAdd.add(item);
-								}
-								disDetailEntityList.addAll(
-									newAdd.stream()
-										.map(addItem -> {
-											SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
-											Validate.notNull(supplier, "供应商不存在：" + addItem.getSupplierCode());
-											return OrderDisDetailEntity.form(findDetailEntity, supplier, addItem.getNum());
-										})
-										.collect(Collectors.toList())
-								);
-							});
-
-						}
+						findDetailEntity.setDisDetailEntityList(
+							dataList.stream()
+								.map(item -> {
+									SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
+									Validate.notNull(supplier, "供应商不存在：" + item.getSupplierCode());
+									return OrderDisDetailEntity.form(findDetailEntity, supplier, item.getNum());
+								}).collect(Collectors.toList())
+						);
 						findDetailEntity.setInitDisNum(findDetailEntity.getDisDetailEntityList()
 							.stream().mapToInt(OrderDisDetailEntity::getInitDisNum).sum());
 						findDetailEntity.setDisNum(findDetailEntity.getDisDetailEntityList()
@@ -239,6 +214,18 @@ public class OrderServiceImpl implements OrderService {
 			orderEntity.setTotalDisNum(detailEntityList.stream().mapToInt(OrderDetailEntity::getDisNum).sum());
 			orderRepository.save(orderEntity);
 		}
+	}
+
+	@Override
+	public List<OrderDisDetailDTO> distributionDetail(OrderDistributionDetailQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		OrderDetailEntity orderDetailEntity = orderDetailRepository.getByOrderCodeAndGoodsCode(command.getOrderCode(), command.getGoodsCode());
+		Validate.isTrue(orderDetailEntity != null && orderDetailEntity.getGroupCode().equals(info.getGroupCode()),
+			"订单详情信息不存在");
+		return orderDetailEntity.getDisDetailEntityList()
+			.stream()
+			.map(OrderDisDetailEntity::form)
+			.collect(Collectors.toList());
 	}
 
 	@Override

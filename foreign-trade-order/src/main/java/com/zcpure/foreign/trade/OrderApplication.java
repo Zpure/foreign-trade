@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Properties;
 
 @SpringBootApplication
-//@EnableEurekaClient
+@EnableEurekaClient
 @EnableFeignClients(basePackages = "com.zcpure.foreign.trade.order.feign")
 public class OrderApplication {
 

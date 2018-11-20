@@ -4,12 +4,15 @@ import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @FeignClient(name = "foreign-trade-order")
 public interface OrderFeign {
@@ -34,6 +37,9 @@ public interface OrderFeign {
 
 	@PostMapping(value = "/api/order/distribution")
 	WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command);
+
+	@PostMapping(value = "/api/order/distribution/detail")
+	WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(@RequestBody OrderDistributionDetailQueryCommand command);
 
 	@PostMapping(value = "/api/order/distribution/update")
 	WebJsonBean<Void> distributionUpdate(@RequestBody OrderDistributionUpdateCommand command);

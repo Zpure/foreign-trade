@@ -3,7 +3,10 @@ package com.zcpure.foreign.trade.order.service;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
+import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.utils.page.PageBean;
+
+import java.util.List;
 
 /**
  * @author ethan
@@ -27,6 +30,8 @@ public interface OrderService {
 	 * @param command
 	 */
 	void distribution(OrderDistributionCommand command);
+
+	List<OrderDisDetailDTO> distributionDetail(OrderDistributionDetailQueryCommand command);
 
 	/**
 	 * s实际配货数量

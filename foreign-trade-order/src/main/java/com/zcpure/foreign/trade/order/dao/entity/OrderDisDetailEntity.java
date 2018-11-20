@@ -1,13 +1,15 @@
 package com.zcpure.foreign.trade.order.dao.entity;
 
+import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import lombok.Data;
 import org.hibernate.annotations.Where;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Table(name = "ft_order_detail_dis", uniqueConstraints = {@UniqueConstraint(columnNames={"orderCode", "goodsCode", "supplierCode"})})
+@Table(name = "ft_order_detail_dis", uniqueConstraints = {@UniqueConstraint(columnNames = {"orderCode", "goodsCode", "supplierCode"})})
 @Where(clause = "delete_flag <> 1")
 @Entity
 @Data
@@ -31,7 +33,7 @@ public class OrderDisDetailEntity extends BaseEntity {
 	private Integer disNum;
 
 	public static OrderDisDetailEntity form(OrderDetailEntity detailEntity, SupplierDTO supplier, Integer num) {
-		if(detailEntity == null) {
+		if (detailEntity == null) {
 			return null;
 		}
 		OrderDisDetailEntity disDetailEntity = new OrderDisDetailEntity();
@@ -49,5 +51,14 @@ public class OrderDisDetailEntity extends BaseEntity {
 		disDetailEntity.setInitDisNum(num);
 		disDetailEntity.setDisNum(0);
 		return disDetailEntity;
+	}
+
+	public static OrderDisDetailDTO form(OrderDisDetailEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		OrderDisDetailDTO dto = new OrderDisDetailDTO();
+		BeanUtils.copyProperties(entity, dto);
+		return dto;
 	}
 }
