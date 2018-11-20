@@ -68,8 +68,8 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "分配详情")
-	@RequestMapping(value = "/distribution/detail", method = RequestMethod.POST)
-	public WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(@RequestBody OrderDistributionDetailQueryCommand command) {
+	@RequestMapping(value = "/distribution/detail", method = RequestMethod.GET)
+	public WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(OrderDistributionDetailQueryCommand command) {
 		return orderFeign.distributionDetail(command);
 	}
 
