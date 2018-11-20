@@ -196,14 +196,50 @@ public class OrderServiceImpl implements OrderService {
 						.findFirst();
 					if (findDetailEntityOp.isPresent()) {
 						OrderDetailEntity findDetailEntity = findDetailEntityOp.get();
-						findDetailEntity.setDisDetailEntityList(
-							dataList.stream()
-								.map(item -> {
-									SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
-									Validate.notNull(supplier, "供应商不存在：" + item.getSupplierCode());
-									return OrderDisDetailEntity.form(findDetailEntity, supplier, item.getNum());
-								}).collect(Collectors.toList())
-						);
+						List<OrderDisDetailEntity> disDetailEntityList = findDetailEntity.getDisDetailEntityList();
+						if (disDetailEntityList == null) {
+							findDetailEntity.setDisDetailEntityList(
+								dataList.stream()
+									.map(item -> {
+										SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
+										Validate.notNull(supplier, "供应商不存在：" + item.getSupplierCode());
+										return OrderDisDetailEntity.form(findDetailEntity, supplier, item.getNum());
+									}).collect(Collectors.toList())
+							);
+						} else {
+							// 移除已分配的配送
+							Set<String> disSupplierCodeSet = dataList.stream()
+								.map(OrderDistributionDetailCommand::getSupplierCode)
+								.collect(Collectors.toSet());
+							for (OrderDisDetailEntity orderDisDetailEntity : disDetailEntityList) {
+								if (!disSupplierCodeSet.contains(orderDisDetailEntity.getSupplierCode())) {
+									disDetailEntityList.remove(orderDisDetailEntity);
+								}
+							}
+
+							List<OrderDistributionDetailCommand> newAdd = new ArrayList<>();
+							dataList.forEach(item -> {
+								Optional<OrderDisDetailEntity> findDisDetailEntityOp = disDetailEntityList
+									.stream()
+									.filter(i -> i.getSupplierCode().equals(item.getSupplierCode()))
+									.findFirst();
+								if (findDisDetailEntityOp.isPresent()) {
+									findDisDetailEntityOp.get().setInitDisNum(item.getNum());
+								} else {
+									newAdd.add(item);
+								}
+								disDetailEntityList.addAll(
+									newAdd.stream()
+										.map(addItem -> {
+											SupplierDTO supplier = supplierMap.get(item.getSupplierCode());
+											Validate.notNull(supplier, "供应商不存在：" + addItem.getSupplierCode());
+											return OrderDisDetailEntity.form(findDetailEntity, supplier, addItem.getNum());
+										})
+										.collect(Collectors.toList())
+								);
+							});
+
+						}
 						findDetailEntity.setInitDisNum(findDetailEntity.getDisDetailEntityList()
 							.stream().mapToInt(OrderDisDetailEntity::getInitDisNum).sum());
 						findDetailEntity.setDisNum(findDetailEntity.getDisDetailEntityList()
