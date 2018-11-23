@@ -167,16 +167,36 @@ public class OrderServiceImpl implements OrderService {
 		OrderEntity orderEntity = orderRepository.findOne(code);
 		Validate.isTrue(orderEntity != null && orderEntity.getGroupCode().equals(info.getGroupCode()),
 			"订单不存在");
-		Validate.isTrue(status.equals(OrderStatusEnum.CONFIRM) && orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
-			"订单状态不能确认");
-		Validate.isTrue(status.equals(OrderStatusEnum.DISTRIBUTION) && orderEntity.getStatus() == OrderStatusEnum.CONFIRM.getCode(),
-			"订单状态不能确认");
-		Validate.isTrue(status.equals(OrderStatusEnum.DELIVERY) && orderEntity.getStatus() == OrderStatusEnum.DISTRIBUTION.getCode(),
-			"订单状态不能确认");
-		Validate.isTrue(status.equals(OrderStatusEnum.RECEIPT) && orderEntity.getStatus() == OrderStatusEnum.DELIVERY.getCode(),
-			"订单状态不能确认");
-		Validate.isTrue(status.equals(OrderStatusEnum.SUCCESS) && orderEntity.getStatus() == OrderStatusEnum.RECEIPT.getCode(),
-			"订单状态不能确认");
+		switch (status) {
+			case CONFIRM:{
+				Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
+					"订单状态不能确认");
+				break;
+			}
+			case DISTRIBUTION:{
+				Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.CONFIRM.getCode(),
+					"订单状态不能配货完成");
+				Validate.isTrue(orderEntity.getTotalDisNum() >= orderEntity.getTotalNum(),
+					"订单还没有配货完");
+				break;
+			}
+			case DELIVERY:{
+				Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.DISTRIBUTION.getCode(),
+					"订单状态不能发货");
+				break;
+			}
+			case RECEIPT:{
+				Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.DELIVERY.getCode(),
+					"订单状态不能收货");
+				break;
+			}
+			case SUCCESS:{
+				Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.RECEIPT.getCode(),
+					"订单状态不能完成");
+				break;
+			}
+			default: break;
+		}
 		orderEntity.setStatus(status.getCode());
 		orderRepository.save(orderEntity);
 	}
