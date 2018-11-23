@@ -7,6 +7,7 @@ import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
+import com.zcpure.foreign.trade.enums.OrderStatusEnum;
 import com.zcpure.foreign.trade.order.service.OrderService;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
@@ -65,9 +66,37 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/confirm/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/confirm/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> confirm(@PathVariable String code) {
-		orderService.confirm(code);
+		orderService.updateStatus(code, OrderStatusEnum.CONFIRM);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "配货完成")
+	@RequestMapping(value = "/distribution/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> distribution(@PathVariable String code) {
+		orderService.updateStatus(code, OrderStatusEnum.DISTRIBUTION);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "发货订单")
+	@RequestMapping(value = "/delivery/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> delivery(@PathVariable String code) {
+		orderService.updateStatus(code, OrderStatusEnum.DELIVERY);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "收货订单")
+	@RequestMapping(value = "/receipt/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> receipt(@PathVariable String code) {
+		orderService.updateStatus(code, OrderStatusEnum.RECEIPT);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "完成订单")
+	@RequestMapping(value = "/success/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> success(@PathVariable String code) {
+		orderService.updateStatus(code, OrderStatusEnum.SUCCESS);
 		return WebJsonBean.SUCCESS();
 	}
 

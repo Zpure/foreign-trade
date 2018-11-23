@@ -162,14 +162,22 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void confirm(String code) {
+	public void updateStatus(String code, OrderStatusEnum status) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		OrderEntity orderEntity = orderRepository.findOne(code);
 		Validate.isTrue(orderEntity != null && orderEntity.getGroupCode().equals(info.getGroupCode()),
 			"订单不存在");
-		Validate.isTrue(orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
+		Validate.isTrue(status.equals(OrderStatusEnum.CONFIRM) && orderEntity.getStatus() == OrderStatusEnum.INIT.getCode(),
 			"订单状态不能确认");
-		orderEntity.setStatus(OrderStatusEnum.CONFIRM.getCode());
+		Validate.isTrue(status.equals(OrderStatusEnum.DISTRIBUTION) && orderEntity.getStatus() == OrderStatusEnum.CONFIRM.getCode(),
+			"订单状态不能确认");
+		Validate.isTrue(status.equals(OrderStatusEnum.DELIVERY) && orderEntity.getStatus() == OrderStatusEnum.DISTRIBUTION.getCode(),
+			"订单状态不能确认");
+		Validate.isTrue(status.equals(OrderStatusEnum.RECEIPT) && orderEntity.getStatus() == OrderStatusEnum.DELIVERY.getCode(),
+			"订单状态不能确认");
+		Validate.isTrue(status.equals(OrderStatusEnum.SUCCESS) && orderEntity.getStatus() == OrderStatusEnum.RECEIPT.getCode(),
+			"订单状态不能确认");
+		orderEntity.setStatus(status.getCode());
 		orderRepository.save(orderEntity);
 	}
 

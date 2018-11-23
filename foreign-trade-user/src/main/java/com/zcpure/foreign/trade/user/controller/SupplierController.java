@@ -8,6 +8,8 @@ import com.zcpure.foreign.trade.command.user.SupplierGoodsQueryCommand;
 import com.zcpure.foreign.trade.command.user.SupplierQueryCommand;
 import com.zcpure.foreign.trade.dto.user.SupplierDTO;
 import com.zcpure.foreign.trade.dto.user.SupplierGoodsDTO;
+import com.zcpure.foreign.trade.enums.SupplierGoodsStatusEnum;
+import com.zcpure.foreign.trade.enums.SupplierStatusEnum;
 import com.zcpure.foreign.trade.user.dao.entity.SupplierEntity;
 import com.zcpure.foreign.trade.user.dao.entity.SupplierGoodsEntity;
 import com.zcpure.foreign.trade.user.dao.mapper.SupplierGoodsMapper;
@@ -110,14 +112,28 @@ public class SupplierController {
 	@ApiOperation(value = "供应商停产")
 	@RequestMapping(value = "/stop/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> stop(@PathVariable String code) {
-		supplierService.stop(code);
+		supplierService.updateStatus(code, SupplierStatusEnum.STOP);
 		return WebJsonBean.SUCCESS();
 	}
 
-	@ApiOperation(value = "供应商停产")
+	@ApiOperation(value = "供应商开产")
+	@RequestMapping(value = "/start/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> start(@PathVariable String code) {
+		supplierService.updateStatus(code, SupplierStatusEnum.NORMAL);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "供应商商品停产")
 	@RequestMapping(value = "/stop/goods/{id}", method = RequestMethod.POST)
 	public WebJsonBean<Void> stopGoods(@PathVariable Long id) {
-		supplierService.stopGoods(id);
+		supplierService.updateStatusGoods(id, SupplierGoodsStatusEnum.STOP);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "供应商商品开产")
+	@RequestMapping(value = "/start/goods/{id}", method = RequestMethod.POST)
+	public WebJsonBean<Void> startGoods(@PathVariable Long id) {
+		supplierService.updateStatusGoods(id, SupplierGoodsStatusEnum.NORMAL);
 		return WebJsonBean.SUCCESS();
 	}
 

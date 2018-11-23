@@ -36,8 +36,14 @@ public interface SupplierFeign {
 	@PostMapping(value = "/api/supplier/stop/{code}")
 	WebJsonBean<Void> stop(@PathVariable("code") String code);
 
+	@PostMapping(value = "/api/supplier/start/{code}")
+	WebJsonBean<Void> start(@PathVariable("code") String code);
+
 	@PostMapping(value = "/api/supplier/stop/goods/{id}")
 	WebJsonBean<Void> stopGoods(@PathVariable("id") Long id);
+
+	@PostMapping(value = "/api/supplier/start/goods/{id}")
+	WebJsonBean<Void> startGoods(@PathVariable("id") Long id);
 
 	@PostMapping(value = "/api/supplier/page")
 	WebJsonBean<PageBean<SupplierDTO>> queryByPage(@RequestBody SupplierQueryCommand command);

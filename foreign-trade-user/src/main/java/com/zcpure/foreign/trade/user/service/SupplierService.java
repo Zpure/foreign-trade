@@ -3,6 +3,8 @@ package com.zcpure.foreign.trade.user.service;
 import com.zcpure.foreign.trade.command.user.SupplierAddCommand;
 import com.zcpure.foreign.trade.command.user.SupplierGoodsAddCommand;
 import com.zcpure.foreign.trade.command.user.SupplierUpdateCommand;
+import com.zcpure.foreign.trade.enums.SupplierGoodsStatusEnum;
+import com.zcpure.foreign.trade.enums.SupplierStatusEnum;
 
 /**
  * @author ethan
@@ -16,7 +18,7 @@ public interface SupplierService {
 
 	void addGoods(SupplierGoodsAddCommand command);
 
-	void stop(String code);
+	void updateStatus(String code, SupplierStatusEnum status);
 
-	void stopGoods(Long id);
+	void updateStatusGoods(Long id, SupplierGoodsStatusEnum status);
 }

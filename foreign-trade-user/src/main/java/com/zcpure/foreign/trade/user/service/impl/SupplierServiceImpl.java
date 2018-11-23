@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,12 +65,12 @@ public class SupplierServiceImpl implements SupplierService {
 		Validate.isTrue(supplierEntity != null && supplierEntity.getGroupCode().equals(info.getGroupCode()),
 			"供应商不存在：" + command.getSupplierCode());
 
-		List<SupplierGoodsEntity>supplierGoodsEntityList = supplierEntity.getDetailList();
+		List<SupplierGoodsEntity> supplierGoodsEntityList = supplierEntity.getDetailList();
 		command.getDetailList().forEach(detail -> {
 			Optional<SupplierGoodsEntity> opSupplierGoods = supplierGoodsEntityList.stream()
 				.filter(item -> item.getGoodsCode().equals(detail.getGoodsCode()))
 				.findFirst();
-			if(opSupplierGoods.isPresent()) {
+			if (opSupplierGoods.isPresent()) {
 				opSupplierGoods.get().setPrice(detail.getPrice());
 			} else {
 				WebJsonBean<GoodsDTO> goodsInfo = goodsFeign.getByCode(detail.getGoodsCode());
@@ -88,22 +87,35 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void stop(String code) {
+	public void updateStatus(String code, SupplierStatusEnum status) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierEntity supplierEntity = supplierRepository.findOne(code);
 		Validate.isTrue(supplierEntity != null && supplierEntity.getGroupCode().equals(info.getGroupCode()),
 			"供应商不存在：" + code);
-		supplierEntity.setStatus(SupplierStatusEnum.STOP.getCode());
+		supplierEntity.setStatus(status.getCode());
+		supplierEntity.getDetailList().forEach(item -> {
+			if(SupplierStatusEnum.NORMAL.equals(status)) {
+				item.setStatus(SupplierGoodsStatusEnum.NORMAL.getCode());
+			}
+			if(SupplierStatusEnum.STOP.equals(status)) {
+				item.setStatus(SupplierGoodsStatusEnum.STOP.getCode());
+			}
+		});
+
+		supplierRepository.save(supplierEntity);
 	}
 
 	@Override
-	public void stopGoods(Long id) {
+	public void updateStatusGoods(Long id, SupplierGoodsStatusEnum status) {
 		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
 		SupplierGoodsEntity entity = supplierGoodsRepository.findOne(id);
 		Validate.isTrue(entity != null && entity.getGroupCode().equals(info.getGroupCode()),
 			"供应商商品不存在");
 
-		entity.setStatus(SupplierGoodsStatusEnum.STOP.getCode());
+		SupplierEntity supplierEntity = supplierRepository.findOne(entity.getSupplierCode());
+		Validate.isTrue(supplierEntity != null && supplierEntity.getStatus() == SupplierStatusEnum.NORMAL.getCode(),
+			"供应商状态错误");
+		entity.setStatus(status.getCode());
 		supplierGoodsRepository.save(entity);
 	}
 }

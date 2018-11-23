@@ -61,6 +61,30 @@ public class OrderController {
 		return orderFeign.confirm(code);
 	}
 
+	@ApiOperation(value = "确认订单")
+	@RequestMapping(value = "/distribution/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> distribution(@PathVariable String code) {
+		return orderFeign.distribution(code);
+	}
+
+	@ApiOperation(value = "确认订单")
+	@RequestMapping(value = "/delivery/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> delivery(@PathVariable String code) {
+		return orderFeign.delivery(code);
+	}
+
+	@ApiOperation(value = "确认订单")
+	@RequestMapping(value = "/receipt/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> receipt(@PathVariable String code) {
+		return orderFeign.receipt(code);
+	}
+
+	@ApiOperation(value = "确认订单")
+	@RequestMapping(value = "/success/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> success(@PathVariable String code) {
+		return orderFeign.success(code);
+	}
+
 	@ApiOperation(value = "分配订单")
 	@RequestMapping(value = "/distribution", method = RequestMethod.POST)
 	public WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command) {

@@ -61,10 +61,22 @@ public class SupplierController {
 		return supplierFeign.stop(code);
 	}
 
-	@ApiOperation(value = "供应商停产")
+	@ApiOperation(value = "供应商开产")
+	@RequestMapping(value = "/start/{code}", method = RequestMethod.POST)
+	public WebJsonBean<Void> start(@PathVariable String code) {
+		return supplierFeign.start(code);
+	}
+
+	@ApiOperation(value = "供应商商品停产")
 	@RequestMapping(value = "/stop/goods/{id}", method = RequestMethod.POST)
 	public WebJsonBean<Void> stopGoods(@PathVariable Long id) {
 		return supplierFeign.stopGoods(id);
+	}
+
+	@ApiOperation(value = "供应商商品开产")
+	@RequestMapping(value = "/start/goods/{id}", method = RequestMethod.POST)
+	public WebJsonBean<Void> startGoods(@PathVariable Long id) {
+		return supplierFeign.startGoods(id);
 	}
 
 	@ApiOperation(value = "获取供应商列表信息")

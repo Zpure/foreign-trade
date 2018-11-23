@@ -4,6 +4,7 @@ import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
+import com.zcpure.foreign.trade.enums.OrderStatusEnum;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface OrderService {
 
 	void update(OrderUpdateCommand command);
 
-	void confirm(String code);
+	void updateStatus(String code, OrderStatusEnum status);
 
 	/**
 	 * 订单分配给供应商

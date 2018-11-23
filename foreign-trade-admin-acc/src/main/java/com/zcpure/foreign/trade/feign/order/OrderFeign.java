@@ -32,8 +32,20 @@ public interface OrderFeign {
 	@GetMapping(value = "/api/order/detail/{code}")
 	WebJsonBean<OrderDTO> detail(@PathVariable("code") String code);
 
-	@GetMapping(value = "/api/order/confirm/{code}")
+	@PostMapping(value = "/api/order/confirm/{code}")
 	WebJsonBean<Void> confirm(@PathVariable("code") String code);
+
+	@PostMapping(value = "/api/order/distribution/{code}")
+	WebJsonBean<Void> distribution(@PathVariable("code") String code);
+
+	@PostMapping(value = "/api/order/delivery/{code}")
+	WebJsonBean<Void> delivery(@PathVariable("code") String code);
+
+	@PostMapping(value = "/api/order/receipt/{code}")
+	WebJsonBean<Void> receipt(@PathVariable("code") String code);
+
+	@PostMapping(value = "/api/order/success/{code}")
+	WebJsonBean<Void> success(@PathVariable("code") String code);
 
 	@PostMapping(value = "/api/order/distribution")
 	WebJsonBean<Void> distribution(@RequestBody OrderDistributionCommand command);
