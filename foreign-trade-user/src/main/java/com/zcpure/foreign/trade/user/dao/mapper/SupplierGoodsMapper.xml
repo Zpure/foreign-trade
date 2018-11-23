@@ -37,7 +37,7 @@
     <select id="queryPage" parameterType="com.zcpure.foreign.trade.command.user.SupplierGoodsQueryCommand"
             resultType="com.zcpure.foreign.trade.dto.user.SupplierGoodsDTO">
         select
-        <include refid="BASE_COLUMN"/>
+        id,<include refid="BASE_COLUMN"/>
         from ft_supplier_goods
         <include refid="BASE_QUERY_WHERE"/>
         order by create_time desc
