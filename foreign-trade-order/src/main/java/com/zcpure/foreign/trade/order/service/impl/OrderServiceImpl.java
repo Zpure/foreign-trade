@@ -145,6 +145,7 @@ public class OrderServiceImpl implements OrderService {
 					.findFirst();
 				if (findEntityOp.isPresent()) {
 					findEntityOp.get().setNum(item.getBuyNum());
+					findEntityOp.get().setPrice(item.getPrice());
 				} else {
 					newAdd.add(item);
 				}
@@ -152,6 +153,8 @@ public class OrderServiceImpl implements OrderService {
 			List<OrderDetailEntity> newAddEntity = getOrderDetail(newAdd);
 			newAddEntity.forEach(item -> item.setOrderCode(command.getCode()));
 			detailEntityList.addAll(newAddEntity);
+			orderEntity.setTotalNum(detailEntityList.stream()
+				.mapToInt(item -> item.getNum()).sum());
 			orderEntity.setTotalAmount(new BigDecimal(detailEntityList.stream()
 				.mapToDouble(item -> item.getPrice().multiply(new BigDecimal(item.getNum())).doubleValue()).sum()));
 			orderRepository.save(orderEntity);
