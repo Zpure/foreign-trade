@@ -56,31 +56,31 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/confirm/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/confirm/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> confirm(@PathVariable String code) {
 		return orderFeign.confirm(code);
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/distribution/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/distribution/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> distribution(@PathVariable String code) {
 		return orderFeign.distribution(code);
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/delivery/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/delivery/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> delivery(@PathVariable String code) {
 		return orderFeign.delivery(code);
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/receipt/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/receipt/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> receipt(@PathVariable String code) {
 		return orderFeign.receipt(code);
 	}
 
 	@ApiOperation(value = "确认订单")
-	@RequestMapping(value = "/success/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/success/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> success(@PathVariable String code) {
 		return orderFeign.success(code);
 	}
