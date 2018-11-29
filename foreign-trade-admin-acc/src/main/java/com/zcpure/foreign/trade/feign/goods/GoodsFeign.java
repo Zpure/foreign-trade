@@ -28,4 +28,10 @@ public interface GoodsFeign {
 
 	@GetMapping("/api/goods/batch-code")
 	WebJsonBean<List<GoodsDTO>> batchByCode(@RequestParam("codes") String codes);
+
+	@GetMapping("/api/goods/on-sale/{code}")
+	WebJsonBean<Void> onSale(@PathVariable("code") String code);
+
+	@GetMapping("/api/goods/off-sale/{code}")
+	WebJsonBean<Void> offSale(@PathVariable("code") String code);
 }

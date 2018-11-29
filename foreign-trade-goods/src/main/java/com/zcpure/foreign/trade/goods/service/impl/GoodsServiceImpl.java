@@ -1,6 +1,5 @@
 package com.zcpure.foreign.trade.goods.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.RequestThroughInfo;
@@ -9,6 +8,7 @@ import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.command.goods.GoodsQueryCommand;
 import com.zcpure.foreign.trade.dto.goods.CategoryLinkDTO;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
+import com.zcpure.foreign.trade.enums.GoodsStatusEnum;
 import com.zcpure.foreign.trade.goods.dao.entity.CategoryEntity;
 import com.zcpure.foreign.trade.goods.dao.entity.GoodsEntity;
 import com.zcpure.foreign.trade.goods.dao.entity.ModelEntity;
@@ -20,11 +20,9 @@ import com.zcpure.foreign.trade.goods.dao.repository.ModelRepository;
 import com.zcpure.foreign.trade.goods.service.CategoryService;
 import com.zcpure.foreign.trade.goods.service.GoodsService;
 import com.zcpure.foreign.trade.goods.utils.page.PageBeanAssembler;
-import com.zcpure.foreign.trade.goods.utils.page.RowBoundsBuilder;
 import com.zcpure.foreign.trade.utils.UniqueNoUtils;
 import com.zcpure.foreign.trade.utils.page.PageBean;
-import org.apache.commons.lang.Validate;
-import org.apache.ibatis.session.RowBounds;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,5 +85,15 @@ public class GoodsServiceImpl implements GoodsService {
 	public GoodsDTO getByCode(String code) {
 		GoodsEntity goodsEntity = goodsRepository.findOne(code);
 		return GoodsEntity.formDTO(goodsEntity);
+	}
+
+	@Override
+	public void updateStatus(String code, GoodsStatusEnum status) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		GoodsEntity goodsEntity = goodsRepository.findOne(code);
+		Validate.isTrue(goodsEntity != null && info.getGroupCode().equals(goodsEntity.getGroupCode()),
+			"商品信息不存在：" + code);
+		goodsEntity.setStatus(status.getCode());
+		goodsRepository.save(goodsEntity);
 	}
 }

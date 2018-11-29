@@ -51,4 +51,16 @@ public class GoodsController {
 	public WebJsonBean<List<GoodsDTO>> batchByCode(@RequestParam("codes") String codes) {
 		return goodsFeign.batchByCode(codes);
 	}
+
+	@ApiOperation(value = "上架商品")
+	@RequestMapping(value = "/on-sale/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> onSale(@PathVariable("code") String code) {
+		return goodsFeign.onSale(code);
+	}
+
+	@ApiOperation(value = "下架商品")
+	@RequestMapping(value = "/off-sale/{code}", method = RequestMethod.GET)
+	public WebJsonBean<Void> offSale(@PathVariable("code") String code) {
+		return goodsFeign.offSale(code);
+	}
 }

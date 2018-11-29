@@ -3,6 +3,7 @@ package com.zcpure.foreign.trade.goods.service;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.command.goods.GoodsQueryCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
+import com.zcpure.foreign.trade.enums.GoodsStatusEnum;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 
 /**
@@ -15,4 +16,6 @@ public interface GoodsService {
 	PageBean<GoodsDTO> queryPage(GoodsQueryCommand command);
 
 	GoodsDTO getByCode(String code);
+
+	void updateStatus(String code, GoodsStatusEnum status);
 }

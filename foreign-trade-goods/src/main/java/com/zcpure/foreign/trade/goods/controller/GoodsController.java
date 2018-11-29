@@ -7,6 +7,7 @@ import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.command.goods.GoodsQueryCommand;
 import com.zcpure.foreign.trade.dto.goods.GoodsDTO;
+import com.zcpure.foreign.trade.enums.GoodsStatusEnum;
 import com.zcpure.foreign.trade.goods.dao.entity.GoodsEntity;
 import com.zcpure.foreign.trade.goods.dao.repository.GoodsRepository;
 import com.zcpure.foreign.trade.goods.service.GoodsService;
@@ -73,5 +74,19 @@ public class GoodsController {
 		}
 		List<GoodsDTO> result = entityList.stream().map(GoodsEntity::formDTO).collect(Collectors.toList());
 		return WebJsonBean.SUCCESS(result);
+	}
+
+	@ApiOperation(value = "上架商品信息")
+	@RequestMapping(value = "/on-sale/{code}")
+	public WebJsonBean<Void> onSale(@PathVariable String code) {
+		goodsService.updateStatus(code, GoodsStatusEnum.ON_SALE);
+		return WebJsonBean.SUCCESS();
+	}
+
+	@ApiOperation(value = "下架商品信息")
+	@RequestMapping(value = "/off-sale/{code}")
+	public WebJsonBean<Void> offSale(@PathVariable String code) {
+		goodsService.updateStatus(code, GoodsStatusEnum.OFF_SALE);
+		return WebJsonBean.SUCCESS();
 	}
 }
