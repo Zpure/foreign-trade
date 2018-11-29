@@ -53,13 +53,13 @@ public class GoodsController {
 	}
 
 	@ApiOperation(value = "上架商品")
-	@RequestMapping(value = "/on-sale/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/on-sale/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> onSale(@PathVariable("code") String code) {
 		return goodsFeign.onSale(code);
 	}
 
 	@ApiOperation(value = "下架商品")
-	@RequestMapping(value = "/off-sale/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/off-sale/{code}", method = RequestMethod.POST)
 	public WebJsonBean<Void> offSale(@PathVariable("code") String code) {
 		return goodsFeign.offSale(code);
 	}
