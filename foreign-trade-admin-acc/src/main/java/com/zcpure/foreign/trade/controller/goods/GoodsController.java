@@ -1,5 +1,7 @@
 package com.zcpure.foreign.trade.controller.goods;
 
+import com.zcpure.foreign.trade.RequestThroughInfo;
+import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.goods.GoodsAddCommand;
 import com.zcpure.foreign.trade.command.goods.GoodsQueryCommand;
@@ -30,9 +32,11 @@ public class GoodsController {
 		return goodsFeign.add(command);
 	}
 
-	@ApiOperation(value = "获取品牌信息")
+	@ApiOperation(value = "获取商品信息")
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public WebJsonBean<PageBean<GoodsDTO>> queryByPage(GoodsQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
 		return goodsFeign.queryByPage(command);
 	}
 

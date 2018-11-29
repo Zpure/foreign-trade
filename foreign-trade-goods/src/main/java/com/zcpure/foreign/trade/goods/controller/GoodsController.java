@@ -44,8 +44,6 @@ public class GoodsController {
 	@ApiOperation(value = "获取品牌信息")
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public WebJsonBean<PageBean<GoodsDTO>> queryByPage(@RequestBody GoodsQueryCommand command) {
-		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
-		command.setGroupCode(info.getGroupCode());
 		PageBean<GoodsDTO> result = goodsService.queryPage(command);
 		return WebJsonBean.SUCCESS(result);
 	}

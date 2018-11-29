@@ -1,5 +1,7 @@
 package com.zcpure.foreign.trade.controller.order;
 
+import com.zcpure.foreign.trade.RequestThroughInfo;
+import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.WebJsonBean;
 import com.zcpure.foreign.trade.command.order.*;
 import com.zcpure.foreign.trade.dto.order.OrderDTO;
@@ -94,7 +96,17 @@ public class OrderController {
 	@ApiOperation(value = "分配详情")
 	@RequestMapping(value = "/distribution/detail", method = RequestMethod.GET)
 	public WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(OrderDistributionDetailQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
 		return orderFeign.distributionDetail(command);
+	}
+
+	@ApiOperation(value = "查询分配详情")
+	@RequestMapping(value = "/distribution/query", method = RequestMethod.GET)
+	public WebJsonBean<PageBean<OrderDisDetailDTO>> pageDistributionDetail(OrderDistributionDetailQueryCommand command) {
+		RequestThroughInfo info = RequestThroughInfoContext.getInfo();
+		command.setGroupCode(info.getGroupCode());
+		return orderFeign.pageDistributionDetail(command);
 	}
 
 	@ApiOperation(value = "订单配货")

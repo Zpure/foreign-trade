@@ -1,5 +1,7 @@
 package com.zcpure.foreign.trade.order.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.zcpure.foreign.trade.Const;
 import com.zcpure.foreign.trade.RequestThroughInfo;
 import com.zcpure.foreign.trade.RequestThroughInfoContext;
 import com.zcpure.foreign.trade.WebJsonBean;
@@ -8,7 +10,9 @@ import com.zcpure.foreign.trade.dto.order.OrderDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDetailDTO;
 import com.zcpure.foreign.trade.dto.order.OrderDisDetailDTO;
 import com.zcpure.foreign.trade.enums.OrderStatusEnum;
+import com.zcpure.foreign.trade.order.dao.mapper.OrderDisDetailMapper;
 import com.zcpure.foreign.trade.order.service.OrderService;
+import com.zcpure.foreign.trade.order.utils.page.PageBeanAssembler;
 import com.zcpure.foreign.trade.utils.page.PageBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +32,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private OrderDisDetailMapper orderDisDetailMapper;
 
 	@ApiOperation(value = "生成订单")
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -107,10 +114,19 @@ public class OrderController {
 		return WebJsonBean.SUCCESS();
 	}
 
-	@ApiOperation(value = "分配详情")
+	@ApiOperation(value = "商品分配详情")
 	@RequestMapping(value = "/distribution/detail", method = RequestMethod.POST)
 	public WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(@RequestBody OrderDistributionDetailQueryCommand command) {
 		return WebJsonBean.SUCCESS(orderService.distributionDetail(command));
+	}
+
+	@ApiOperation(value = "查询分配详情")
+	@RequestMapping(value = "/distribution/query", method = RequestMethod.POST)
+	public WebJsonBean<PageBean<OrderDisDetailDTO>> pageDistributionDetail(@RequestBody OrderDistributionDetailQueryCommand command) {
+		PageHelper.startPage(command.getPageNo() != null ? command.getPageNo() : Const.PAGE_DEFAULT_NO,
+			command.getPageSize() != null ? command.getPageSize() : Const.PAGE_DEFAULT_SIZE);
+		List<OrderDisDetailDTO> result = orderDisDetailMapper.queryPage(command);
+		return WebJsonBean.SUCCESS(new PageBeanAssembler().toBeanByList(result));
 	}
 
 	@ApiOperation(value = "订单配货")

@@ -53,6 +53,9 @@ public interface OrderFeign {
 	@PostMapping(value = "/api/order/distribution/detail")
 	WebJsonBean<List<OrderDisDetailDTO>> distributionDetail(@RequestBody OrderDistributionDetailQueryCommand command);
 
+	@PostMapping(value = "/api/order/distribution/query")
+	WebJsonBean<PageBean<OrderDisDetailDTO>> pageDistributionDetail(@RequestBody OrderDistributionDetailQueryCommand command);
+
 	@PostMapping(value = "/api/order/distribution/update")
 	WebJsonBean<Void> distributionUpdate(@RequestBody OrderDistributionUpdateCommand command);
 

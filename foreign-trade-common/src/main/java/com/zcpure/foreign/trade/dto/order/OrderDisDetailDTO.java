@@ -14,6 +14,14 @@ public class OrderDisDetailDTO implements Serializable {
 	private String groupCode;
 	private String groupName;
 	private String goodsCode;
+	private String goodsName;
+	private Long brandId;
+	private String brandName;
+	private Long modelId;
+	private String modelName;
+	private Long categoryId;
+	private String categoryName;
+	private String categoryLinkName;
 	private String supplierCode;
 	private String supplierName;
 	private BigDecimal costPrice;

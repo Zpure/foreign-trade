@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="log.base" value="/data/logs" /> <!-- 日志根目录 -->
+	<property name="log.moduleName" value="${appName}" /> <!-- 模块名称， 影响日志配置名，日志文件名 -->
+
+	<!--控制台输出 -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{6}.%method<%L> %X{requestId} %X{class} %X{method} %msg%n]]></Pattern>
+		</encoder>
+	</appender>
+
+	<!-- 日志文件输出 -->
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.base}/${log.moduleName}/${log.moduleName}.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}/${log.moduleName}/archive/${log.moduleName}_%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+		</rollingPolicy>
+		<!-- 日志输出的文件的格式 -->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{6}.%method<%L> %X{requestId} %X{class} %X{method} %msg%n]]></Pattern>
+		</encoder>
+	</appender>
+
+	<!-- 慢sql输出 -->
+	<appender name="slow-sql" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.base}/${log.moduleName}/${log.moduleName}-slow-sql.log
+		</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}/${log.moduleName}/archive/${log.moduleName}_slow-sql_%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.alibaba.druid" level="INFO" additivity="false">
+		<appender-ref ref="slow-sql" />
+	</logger>
+
+
+	<logger name="com.zcpure" level="DEBUG" additivity="false">
+		<appender-ref ref="file" />
+		<appender-ref ref="stdout" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="file" />
+		<appender-ref ref="stdout" />
+	</root>
+
+</configuration>
