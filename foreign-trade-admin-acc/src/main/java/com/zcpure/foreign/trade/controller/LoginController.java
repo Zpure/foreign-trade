@@ -31,13 +31,12 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		UserDTO loginInfo = (UserDTO) session.getAttribute(Const.LOGIN_TOKEN);
 		if (loginInfo != null) {
-			return new WebJsonBean(BaseCode.SUCCESS, loginInfo);
-		} else {
-			WebJsonBean<UserDTO> result = userFeign.login(command);
-			if (result.getCode() == BaseCode.SUCCESS.getIndex()) {
-				session.setAttribute(Const.LOGIN_TOKEN, result.getData());
-			}
-			return result;
+			session.removeAttribute(Const.LOGIN_TOKEN);
 		}
+		WebJsonBean<UserDTO> result = userFeign.login(command);
+		if (result.getCode() == BaseCode.SUCCESS.getIndex()) {
+			session.setAttribute(Const.LOGIN_TOKEN, result.getData());
+		}
+		return result;
 	}
 }
